@@ -3,7 +3,6 @@
   "version": "3.0.1",
   "description": "for walkman",
   "main": "app.js",
-  
   "dependencies": {},
   "devDependencies": {},
   "scripts": {
