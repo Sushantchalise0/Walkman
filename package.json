@@ -1,7 +1,7 @@
 {
-  "name": "cms",
-  "version": "1.0.1",
-  "description": "A CMS in NODE.js",
+  "name": "walkman",
+  "version": "3.0.1",
+  "description": "Walkman app in NODE.js",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
