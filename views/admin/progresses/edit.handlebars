@@ -1,0 +1,35 @@
+<h1>EDIT progress HERE</h1>
+
+<form action="/admin/progresses/edit/{{progress.id}}?_method=PUT" method="post">
+
+    <div class="form-group">
+        <label for="distance"> Distance </label>
+        <input type="text" name="distance" class="form-control" id="distance" value="{{progress.distance}}">
+    </div>
+
+    <div class="form-group">
+        <label for="calorie"> Calorie </label>
+        <input type="text" name="calorie" class="form-control" id="calorie" value="{{progress.calorie}}">
+    </div>
+    <div class="form-group">
+        <label for="carbon_red"> carbon_red </label>
+        <input type="text" name="carbon_red" class="form-control" id="carbon_red" value="{{progress.carbon_red}}">
+    </div>
+    <div class="form-group">
+        <label for="coins"> coins </label>
+        <input type="text" name="coins" class="form-control" id="coins" value="{{progress.coins}}">
+    </div>
+
+    <div class="form-group">
+        <label for="detail"> user </label>
+        <select name="detail" id="status" class="form-control" value="{{progress.detail}}">
+
+            {{#each details}}
+            <option value='{{id}}'>{{user_name}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary"> Update </button>
+
+</form>

@@ -1,0 +1,36 @@
+<h1>ALL USERL</h1>
+
+{{!-- {{> home/form-msgs}} --}}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>firstName</th>
+            <th>lastName</th>
+            <th>email</th>
+            <th>password</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {{#each loginuser}}
+        <tr>
+            <td>{{firstName}}</td>
+            <td>{{lastName}}</td>
+            <td>{{email}}</td>
+            <td>{{password}}</td>
+            <td>
+                <form action="/admin/loginuser/{{id}}?_method=DELETE" method="POST">
+                    <button type="submit" class="btn btn-danger">DELETE</button>
+                </form>
+            </td>
+
+        </tr>
+        {{/each}}
+
+    </tbody>
+
+
+
+</table>

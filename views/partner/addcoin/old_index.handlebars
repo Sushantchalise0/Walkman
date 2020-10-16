@@ -1,0 +1,37 @@
+<h1>ALL Addition</h1>
+
+{{!-- {{> home/form-msgs}} --}}
+<div class="box-body" style="overflow-x:auto;">
+<table id="example" class="table table-bordered">
+<thead>
+    <tr>
+        <th>WalkmanUser</th>
+         <th>MailId</th>
+        <th>metric</th>
+        <th>unit</th>
+        <th>Date</th>
+         <th>Actions</th>
+    </tr>
+</thead>
+
+<tbody>
+
+    {{#each addcoin}}
+    <tr>
+        <td>{{detail.user_name}}</td>
+        <td>{{mailid}}</td>
+        <td>{{metric}}</td>
+        <td>{{unit}}</td>
+        <td>{{generateTime addedDate 'MMMM Do YYYY'}}</td>
+        <td><a href="/partner/addcoin/edit/{{id}}" class="btn btn-info">Edit</a>
+            <form action="/partner/addcoin/{{id}}?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-danger">DELETE</button>
+            </form>
+        </td>
+    
+    </tr>
+    {{/each}}
+
+</tbody>
+</table>
+</div>

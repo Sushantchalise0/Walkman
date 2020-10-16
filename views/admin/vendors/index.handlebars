@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-xs-12">
+        <!-- /.box -->
+
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">All Vendors</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow-x:auto;">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>VendorIcon</th>
+                            <th>VendorName</th>
+                            <th>Category</th>
+                            <th>VendorAdd</th>
+                            <th>TotalCoins</th>
+                            <th>TotalDue</th>
+                            <th>TotalSales</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each vendors}}
+                        <tr>
+                            <td><img height="100px" width="100px" class="img-responsive" src="{{vendor_ic}}" alt="">
+                            </td>
+                            <td>{{vendor_name}}</td>
+                            <td>{{cat_id.cat_name}}</td>
+                            <td>{{vendor_address}}</td>
+                            <td>{{total_coins}}</td>
+                            <td>{{total_due}}</td>
+                            <td>{{total_sales}}</td>
+                            <td>{{status}}</td>
+                            </td>
+                            <td>
+                                <a href="/admin/vendors/edit/{{id}}" class="btn btn-info">Edit</a>
+                                <form action="/admin/vendors/{{id}}?_method=DELETE" method="POST">
+                                    <button type="submit" class="btn btn-danger">DELETE</button>
+                                </form>
+                                <a href="/admin/vendors/products/{{id}}" class="btn btn-info">PRODUCTS</a>
+                            </td>
+
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+{{!-- <script type="text/javascript" src="/js/jquery/jquery.min.js"></script> --}}
+<!--jquery is must for data table for search and pages-->
+<script src="/wlkasset/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- page script -->
+<script>
+    $(function () {
+        $('#example1').DataTable()
+        $('#example2').DataTable({
+            'paging': true,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
+        })
+    });
+</script>

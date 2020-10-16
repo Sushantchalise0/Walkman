@@ -1,0 +1,46 @@
+<h1>EDIT VENDOR HERE</h1>
+
+<form action="/admin/vendors/edit/{{vendors.id}}?_method=PUT" method="post" enctype="multipart/form-data">
+    <center><h5><label> Vendor Details </label></h5></center>
+     <div class="form-group">
+        <label for="VendorName"> VendorName </label>
+        <input type="text" name="vendor_name" class="form-control" id="vendorname" value="{{vendors.vendor_name}}">
+    </div>
+      <div class="form-group">
+        <label for="category"> Category </label>
+        <select name="cat_id" id="cat_id" class="form-control"  value="{{vendors.cat_id}}">
+        
+         {{#each categories}}
+            <option value='{{id}}'>{{cat_name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="VendorAddress"> VendorAddress </label>
+        <input type="text" name="vendor_address" class="form-control" id="vendoradd" value="{{vendors.vendor_address}}">
+    </div>
+      <div class="form-group">
+        <label for="longitude"> Longitude </label>
+        <input type="text" name="longitude" class="form-control" id="longitude" value="{{vendors.longitude}}">
+    </div>
+    <div class="form-group">
+        <label for="lattitude"> Lattitude </label>
+        <input type="text" name="lattitude" class="form-control" id="lattitude" value="{{vendors.lattitude}}">
+    </div>
+     <div class="form-group">
+        <label for="file"> Upload Icon </label>
+        <input type="file" name="vendor_ic" class="form-control" value="{{vendors.vendor_ic}}">
+    </div>
+  <div class="form-group">
+        <label for="status" class="form-check-label"> 
+        <input type="checkbox" name="status" class="form-check-input" id="status">
+        Status
+        </label>
+    </div>
+
+
+
+
+    <button type="submit" class="btn btn-primary"> Update </button>
+
+</form>

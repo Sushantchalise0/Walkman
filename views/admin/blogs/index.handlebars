@@ -1,0 +1,33 @@
+<h1>ALL BLOGS</h1>
+
+{{!-- {{> home/form-msgs}} --}}
+<div class="box-body" style="overflow-x:auto;">
+<table id="example" class="table table-bordered">
+<thead>
+    <tr>
+        <th>Title</th>
+        <th>Discription</th>
+        <th>Date</th>
+         <th>Actions</th>
+    </tr>
+</thead>
+
+<tbody>
+
+    {{#each blogs}}
+    <tr>
+        <td>{{title}}</td>
+        <td>{{description}}</td>
+        <td>{{generateTime date 'MMMM Do YYYY'}}</td>
+        <td><a href="/admin/blogs/edit/{{id}}" class="btn btn-info">Edit</a>
+            <form action="/admin/blogs/{{id}}?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-danger">DELETE</button>
+            </form>
+        </td>
+    
+    </tr>
+    {{/each}}
+
+</tbody>
+</table>
+</div>

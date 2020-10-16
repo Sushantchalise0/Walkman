@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-xs-12">
+        <!-- /.box -->
+
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">All User Progresses</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow-x:auto;">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>DisplayImage</th>
+                            <th>Name</th>
+                            <th>Steps</th>
+                            <th>Calorie</th>
+                            <th>Coins</th>
+                            <th>Actions</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {{#each progresses}}
+                        <tr>
+                            <td><img height="100px" width="100px" class="img-responsive" src="{{detail.user_img}}"
+                                    alt=""></td>
+                            {{!-- <td>{{detail.user_img}}</td> --}}
+                            <td>{{detail.user_name}}</td>
+                            <td>{{distance}}</td>
+                            <td>{{calorie}}</td>
+                            <td>{{coins}}</td>
+
+                            <td>
+                                <a href="/admin/progresses/edit/{{id}}" class="btn btn-info">Edit</a>
+                                <form action="/admin/progresses/{{id}}?_method=DELETE" method="POST">
+                                    <button type="submit" class="btn btn-danger">DELETE</button>
+                                </form>
+                                <a href="/admin/subprogress/detail/{{detail.id}}" class="btn btn-info">DETAILS</a>
+                            </td>
+
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+{{!-- <script type="text/javascript" src="/js/jquery/jquery.min.js"></script> --}}
+<!--jquery is must for data table for search and pages-->
+<script src="/wlkasset/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- page script -->
+<script>
+    $(function () {
+        $('#example1').DataTable()
+        $('#example2').DataTable({
+            'paging': true,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
+        })
+    });
+</script>

@@ -1,0 +1,141 @@
+{{!-- <h1>CREATE KG HERE</h1> --}}
+
+{{!-- added for dropdown select2 --}}
+
+{{!-- end added for dropdown select2 --}}
+
+{{#each errors}}
+
+<div class="alert alert-danger">
+    {{message}}
+</div>
+{{/each}}
+
+
+
+<div class="container">
+    <div id="loginbox" style="margin-top:50px; border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px 20px #026a00 inset;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <center>
+                    <div class="panel-title">Green Business Interface</div>
+                </center>
+                {{!-- <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div> --}}
+            </div>
+
+            <div style="padding-top:30px" class="panel-body">
+
+                <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                {{!-- <form action="/partner/addcoin/create" method="post" class="form-horizontal" role="form"> --}}
+                <form action="#" method="dialog" class="form-horizontal" role="form">
+
+                    <div class="input-group">
+                        <label class="control-label">Walkman User??
+                            <input type="checkbox" id="myCheck" onclick="myFunction()"
+                                style="width:20px;height:20px;" />
+                        </label>
+                    </div>
+
+
+
+
+                    <p id="text" style="display:none">
+                        <span class="input-group-addon">
+                            {{!-- <img src="/assets/images/favicon.png" style="height:15px;width:15x;"/> --}}
+                            <i class="glyphicon glyphicon-user"></i>
+                        </span>
+                        <select id="single" class="form-control select2" name="detail" style=" width: 100%;
+        margin: 10px;">
+                            <option value="">--Select User--</option>
+                            {{#each details}}
+                            <option value='{{id}}'>{{user_name}}</option>
+                            {{/each}}
+                        </select>
+
+                    </p>
+                    <p id="emailinput">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-envelope"></i>
+                        </span>
+                        <input type="text" class="form-control" name="mailid" placeholder="Email">
+                    </p>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <div style="margin-bottom: 25px" class="input-group">
+                                <span class="input-group-addon">
+                                    <i class=" glyphicon glyphicon-certificate"></i>
+                                </span>
+                                <input type="text" class="form-control" name="metric" placeholder="Amount">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div style="margin-bottom: 25px" class="input-group">
+                                <select id="single" class="form-control select2" name="unit" style="width: 100%;">
+                                    <option value="">--Select--</option>
+                                    {{#each units}}
+                                    <option value='{{id}}'>{{unit}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style="margin-top:10px" class="form-group">
+                        <!-- Button -->
+
+                        <div class="col-sm-12 controls">
+                            <button type="submit" class="btn btn-success"> Submit </button>
+                        </div>
+                    </div>
+                </form>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{{!-- <script>
+    $(document).ready(function () {
+        var detail = $('#detail');
+        detail.keyup(function () {
+            var value = detail.val();
+            socket.emit('find_user', value);
+        });
+    });
+
+    socket.on('find_user_result', function (user) {
+        // treat result here
+    });
+</script> --}}
+
+
+<script>
+    function myFunction() {
+        // Get the checkbox
+        var checkBox = document.getElementById("myCheck");
+        // Get the output text
+        var text = document.getElementById("text");
+        var emailinput = document.getElementById("emailinput");
+
+        if (checkBox.checked == false) {
+            emailinput.style.display = "block";
+        } else {
+            emailinput.style.display = "none";
+        }
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked == true) {
+            text.style.display = "block";
+        } else {
+            text.style.display = "none";
+        }
+
+    }
+</script>

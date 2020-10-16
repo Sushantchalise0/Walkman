@@ -1,0 +1,32 @@
+<h1>EDIT Detail HERE</h1>
+
+<form action="/admin/details/edit/{{details.id}}?_method=PUT" method="post">
+
+    <div class="form-group">
+        <label for="user_name"> Username </label>
+        <input type="text" name="user_name" class="form-control" id="user_name" value="{{details.user_name}}">
+    </div>
+     <div class="form-group">
+        <label for="user_img"> user_img </label>
+        <input type="text" name="user_img" class="form-control" id="user_img" value="{{details.user_img}}">
+    </div>
+     <div class="form-group">
+        <label for="fb_id"> fb_id </label>
+        <input type="text" name="fb_id" class="form-control" id="fb_id" value="{{details.fb_id}}">
+    </div>
+     <div class="form-group">
+        <label for="gender"> gender </label>
+        <input type="text" name="gender" class="form-control" id="gender" value="{{details.gender}}">
+    </div>
+     <div class="form-group">
+        <label for="companyCode"> companyCode </label>
+        <input type="text" name="companyCode" class="form-control" id="companyCode" value="{{details.companyCode}}">
+    </div>
+  <div class="form-group">
+        <label for="email"> email </label>
+        <input type="text" name="email" class="form-control" id="email" value="{{details.email}}">
+    </div>
+
+    <button type="submit" class="btn btn-primary"> UPDATE </button>
+
+</form>

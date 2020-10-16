@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-xs-12">
+        <!-- /.box -->
+
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">All Products</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow-x:auto;">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>VendorName</th>
+                            <th>ProductName</th>
+                            <th>Product</th>
+                            <th>Desc</th>
+                            <th>Req. Coins</th>
+                            <th>ActPrice</th>
+                            <th>WalkmanPrice</th>
+                            <th>DiscPrice</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each products}}
+                        <tr>
+                            {{!-- <td><img height="50" class="img-responsive" src="/uploads/{{file}}" alt=""></td> --}}
+                            <td>{{vendor_id.vendor_name}}</td>
+                            <td>{{name}}</td>
+                            <td><img height="100px" width="100px" class="img-responsive" src="{{img}}" alt=""></td>
+                            <td>{{desc}}</td>
+                            <td>{{coins}}</td>
+                            <td>{{act_price}}</td>
+                            <td>{{walkman_price}}</td>
+                            <td>{{disc_price}}</td>
+                            <td>{{generateTime date 'MMMM Do YYYY'}}</td>
+                            <td>{{status}}</td>
+
+                            <td>
+                                <a href="/admin/products/edit/{{id}}" class="btn btn-info">Edit</a>
+                                <form action="/admin/products/{{id}}?_method=DELETE" method="POST">
+                                    <button type="submit" class="btn btn-danger">DELETE</button>
+                                </form>
+                            </td>
+
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+{{!-- <script type="text/javascript" src="/js/jquery/jquery.min.js"></script> --}}
+<!--jquery is must for data table for search and pages-->
+<script src="/wlkasset/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- page script -->
+<script>
+    $(function () {
+        $('#example1').DataTable()
+        $('#example2').DataTable({
+            'paging': true,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
+        })
+    });
+</script>
