@@ -124,8 +124,8 @@ app.use("/admin/vendorlog", vendorlog);
 app.use("/admin/products", products);
 app.use("/admin/featured", featured);
 app.use("/admin/statements", statements);
-app.use("/partner/addcoin", addcoinpartner);
-app.use("/partner", loginpartner);
+// app.use("/partner/addcoin", addcoinpartner);
+// app.use("/partner", loginpartner);
 //for secure api
 app.use("/api", ProtectedRoutes);
 
