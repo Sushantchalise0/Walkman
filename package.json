@@ -3,6 +3,9 @@
   "version": "3.0.1",
   "description": "Walkman app in NODE.js",
   "main": "app.js",
+  "engines": {
+    "node": "12.19.0"
+  },
   "scripts": {
     "start": "node app.js"
   },
