@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const Handlebars = require('handlebars');
 const exphbs = require("express-handlebars");
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access'); //for deployment purpose only
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
@@ -39,7 +41,8 @@ app.engine(
 	"handlebars",
 	exphbs({
 		defaultLayout: "home",
-		helpers: { select: select, generateTime: generateTime }
+		helpers: { select: select, generateTime: generateTime },
+		handlebars: allowInsecurePrototypeAccess(Handlebars)
 	})
 );
 app.set("view engine", "handlebars");
@@ -53,6 +56,9 @@ app.use(upload());
 // BODY PARSER
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
+    
 
 //SESSIONS
 app.use(
@@ -1019,12 +1025,12 @@ app.get("/featured", function(req, res) {
 		});
 });
 //API CATEGORY
-app.get("/categories", function(req, res) {
+app.use("/categories", function(req, res) {
 	Category.find({}).exec(function(err, categories) {
 		if (err) {
 			res.json(err);
 		} else {
-			res.json({ categories });
+			res.json( categories );
 		}
 	});
 });
@@ -1034,7 +1040,7 @@ app.get("/vendors", function(req, res) {
 		if (err) {
 			res.json(err);
 		} else {
-			res.json({ vendors });
+			res.json( vendors );
 		}
 	});
 });
@@ -1058,7 +1064,7 @@ app.get("/products", async (req, res) => {
 		products.push(body);
 	});
 
-	res.json({ products });
+	res.json( products );
 });
 // //API products
 // app.get("/products", function(req, res) {

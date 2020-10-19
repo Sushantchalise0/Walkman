@@ -9,6 +9,7 @@
   "author": "Sushant Chalise",
   "license": "ISC",
   "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.3",
     "animejs": "^2.2.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",

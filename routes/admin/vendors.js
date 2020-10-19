@@ -59,7 +59,7 @@ router.post('/create', (req, res) => {
     });
     }
 
-    let status = true;
+    let status = 1;
 
     if(req.body.status){
         status = 1;
@@ -132,9 +132,9 @@ router.get('/edit/:id', (req, res) => {
     Vendor.findOne({_id: req.params.id}).then(vendors => {
 
         if(req.body.status){
-            status = true;
+            status = 1;
         } else {
-            status = false;
+            status = 0;
         }
 
         vendors.status= status;

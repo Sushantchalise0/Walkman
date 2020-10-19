@@ -28,7 +28,7 @@ const VendorSchema = new Schema({
         default: 'empty'
     },
     status:{
-        type: String,
+        type: Boolean,
         default: 0
     }
     // ,
