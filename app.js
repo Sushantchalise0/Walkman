@@ -1020,7 +1020,7 @@ app.get("/featured", function(req, res) {
 			if (err) {
 				res.json(err);
 			} else {
-				res.json({ featured });
+				res.json( featured );
 			}
 		});
 });
@@ -1066,6 +1066,10 @@ app.get("/products", async (req, res) => {
 
 	res.json( products );
 });
+
+
+
+
 // //API products
 // app.get("/products", function(req, res) {
 // 	Products.find({}).exec(function(err, products) {
@@ -1108,6 +1112,36 @@ app.get("/totalgreencoins", function(req, res) {
 		}
 	});
 });
+
+//API for bestdeals products
+app.get("/bestdeals", async (req, res) => {
+	var prod = await Products.find({
+		
+	})
+	.sort({ walkman_price : -1 })
+	;
+	var products = [];
+	prod.map(proddata => {
+		var body = {};
+		body.name = proddata.name;
+		body.img = proddata.img;
+		body.coins = proddata.coins;
+		body.desc = proddata.desc;
+		body.act_price = "Rs. " + proddata.act_price;
+		body.disc_price = "Rs. " + proddata.disc_price;
+		body.status = proddata.status;
+		body.walkman_price = "Rs. " + proddata.walkman_price;
+		body._id = proddata._id;
+		body.vendor_id = proddata.vendor_id;
+		body.ratings = proddata.ratings;
+		products.push(body);
+	});
+
+	res.json( products );
+});
+
+
+
 //statements
 app.post("/getStatement", async (req, res) => {
 	var vendor_id = req.body.vendorID;

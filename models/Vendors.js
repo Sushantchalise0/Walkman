@@ -19,6 +19,26 @@ const VendorSchema = new Schema({
         type: String,
         default: 'empty'
     },
+    vendor_fb:{
+        type: String,
+        default: 'empty'
+    },
+    vendor_insta:{
+        type: String,
+        default: 'empty'
+    },
+    vendor_web:{
+        type: String,
+        default: 'empty'
+    },
+    vendor_disc:{
+        type: String,
+        default: 'empty'
+    },
+    vendor_phone:{
+        type: String,
+        default: 'empty'
+    },
     longitude:{
         type: String,
         default: 'empty'

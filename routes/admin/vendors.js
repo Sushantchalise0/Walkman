@@ -75,6 +75,11 @@ router.post('/create', (req, res) => {
         vendor_name: req.body.vendor_name,
         cat_id: req.body.cat_id,
         vendor_address: req.body.vendor_address,
+        vendor_fb: req.body.vendor_fb,
+        vendor_web : req.body.vendor_web,
+        vendor_insta: req.body.vendor_insta,
+        vendor_disc: req.body.vendor_disc,
+        vendor_phone: req.body.vendor_phone,
         longitude: req.body.longitude,
         lattitude: req.body.lattitude,
         status: status,
@@ -143,6 +148,11 @@ router.get('/edit/:id', (req, res) => {
         vendors.vendor_address = req.body.vendor_address;
         vendors.longitude = req.body.longitude;
         vendors.lattitude = req.body.lattitude;
+        vendor_fb = req.body.vendor_fb;
+        vendor_web = req.body.vendor_web;
+        vendor_insta = req.body.vendor_insta;
+        vendor_disc = req.body.vendor_disc;
+        vendor_phone = req.body.vendor_phone;
         
 
         if(!isEmpty(req.files)){
