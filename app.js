@@ -651,20 +651,19 @@ ProtectedRoutes.get("/leaderboardsecured", function(req, res) {
 //     });
 // });
 
-//API ADD USERS - WHY USED?
-app.post("/details", (req, res) => {
+//API ADD NEW USERS 
+app.post("/details/registration", (req, res) => {
 	var user_img = req.body.user_img;
-	var _id = req.body._id;
-	var gender = req.body.gender;
+	var email_id = req.body.email_id;
+	var user_name = req.body.user_name;
 
 	var details = new Detail({
 		user_name: user_name,
 		user_img: user_img,
-		fb_id: fb_id,
-		gender: gender
+		email_id: email_id
 	});
 
-	Detail.find({ _id }).then(data => {
+	Detail.find({ email_id }).then(data => {
 		//console.log((data));
 		details.save().then(
 			docs => {
@@ -686,15 +685,15 @@ app.post("/details", (req, res) => {
 });
 
 //API TO CHECK IS USER EXISTS
-app.post("/status", (req, res) => {
-	var fb_id = req.body.fb_id;
+app.post("/userExists", (req, res) => {
+	var email_id = req.body.email_id;
 
-	Detail.find({ fb_id }).then(data => {
+	Detail.find({ email_id }).then(data => {
 		// console.log((data));
 		if (isEmptyObject(data)) {
-			return res.send("the object is empty");
+			return res.send("false");
 		} else {
-			return res.send("object not empty");
+			return res.send("true");
 		}
 	});
 });
