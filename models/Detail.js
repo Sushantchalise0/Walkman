@@ -13,7 +13,7 @@ const DetailSchema = new Schema({
     default: 'empty'
    },
 
-   fb_id: {
+   email_id: {
        type: String,
        default: '0'
    },
@@ -25,9 +25,13 @@ const DetailSchema = new Schema({
     type: String,
     default: 0
     },
-    email:{
+    phone_number:{
         type: String,
         default: 0
+    },
+    dob: {
+        type: String,
+        default: '1990-10-12'
     }
 
 });

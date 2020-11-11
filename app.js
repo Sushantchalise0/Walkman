@@ -546,7 +546,7 @@ app.post("/redeem/set", (req, res) => {
 app.get("/details", (req, res) => {
 	Detail.find().then(
 		details => {
-			res.send({ details });
+			res.send( details );
 		},
 		e => {
 			res.send(400).send(e);
@@ -651,19 +651,20 @@ ProtectedRoutes.get("/leaderboardsecured", function(req, res) {
 //     });
 // });
 
-//API ADD USERS
+//API ADD USERS - WHY USED?
 app.post("/details", (req, res) => {
 	var user_img = req.body.user_img;
-	var fb_id = req.body.fb_id;
+	var _id = req.body._id;
+	var gender = req.body.gender;
 
 	var details = new Detail({
-		user_name: req.body.user_name,
+		user_name: user_name,
 		user_img: user_img,
 		fb_id: fb_id,
-		gender: req.body.gender
+		gender: gender
 	});
 
-	Detail.find({ fb_id }).then(data => {
+	Detail.find({ _id }).then(data => {
 		//console.log((data));
 		details.save().then(
 			docs => {
@@ -691,9 +692,9 @@ app.post("/status", (req, res) => {
 	Detail.find({ fb_id }).then(data => {
 		// console.log((data));
 		if (isEmptyObject(data)) {
-			return res.send("false");
+			return res.send("the object is empty");
 		} else {
-			return res.send("true");
+			return res.send("object not empty");
 		}
 	});
 });
@@ -759,6 +760,36 @@ app.post("/details/getDetails", (req, res) => {
 	);
 });
 
+
+//API UPDATE USER DETAIL
+app.post("/details/updateDetail", (req, res) => {
+	// var _id = req.body._id;
+	var email_id = req.body.email_id;
+	var gender = req.body.gender;
+	var user_name = req.body.user_name;
+	var phone_number = req.body.phone_number;
+	var dob = req.body.dob;
+	var detail = new Detail({
+		// fb_id: req.body.fb_id,
+		gender: req.body.gender,
+		user_name: req.body.user_name,
+		phone_number: req.body.phone_number,
+		dob : req.body.dob
+	});
+	Detail.findOneAndUpdate(
+		{ email_id : email_id },
+		{ $set: { gender: gender, user_name: user_name, phone_number: phone_number, dob: dob} },
+		{ new: true },
+		(err, doc) => {
+			if (err) {
+				res.send("error");
+			}
+			res.send("send");
+		}
+	);
+});
+
+
 //API SET PROGRESS
 app.post("/progresses/setProgress", (req, res) => {
 	var detail = req.body.detail;
@@ -779,7 +810,7 @@ app.post("/progresses/setProgress", (req, res) => {
 			if (err) {
 				res.send("error");
 			}
-			res.send(doc);
+			res.send("send");
 			//     prog.save().then((progresses) => {
 			//         res.send(progresses);
 			//     }, (e) => {
