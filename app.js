@@ -219,6 +219,7 @@ const EmployeeWeeklyQuestion = require("./models/EmployeeWeeklyQuestion");
 const TreasureHuntQuestion = require("./models/TreasureHuntQuestion");
 const SyncWeeklyProgressEmployee = require("./models/SyncWeeklyProgressEmployee");
 const Unitss = require("./models/partner/Units");
+const Vendors = require("./models/Vendors");
 
 //API CUOPNS
 app.get("/coupons", async (req, res) => {
@@ -822,6 +823,30 @@ app.post("/progresses/setProgress", (req, res) => {
 		}
 	);
 });
+
+
+//API TO SERRCH VENDORS
+
+app.get('/vendorSearch', function(req, res) {
+	var query = req.body.query;
+	
+	
+	var regex = new RegExp(query, 'i');
+
+	
+    Vendors.find({
+        vendor_name : regex
+    }, function(err, result) {
+        if (err) throw err;
+        if (result) {
+            res.json(result)
+        } else {
+            res.send(JSON.stringify({
+                error : 'Error'
+            }))
+        }
+    })
+})
 
 app.get("/subtest", function(req, res) {
 	Subprogress.find({})
