@@ -66,12 +66,12 @@ router.post('/create', (req, res) => {
     });
     }
 
-    let status = true;
+    let status = 0;
 
     if(req.body.status){
-        status = true;
+        status = 1;
     } else {
-        status = false;
+        status = 0;
     }
 
     const newProducts = new Products({
@@ -137,9 +137,9 @@ router.get('/edit/:id', (req, res) => {
     Products.findOne({_id: req.params.id}).then(products => {
 
         if(req.body.status){
-            status = true;
+            status = 1;
         } else {
-            status = false;
+            status = 0;
         }
         products.status= status;
         products.vendor_id = req.body.vendor_id;

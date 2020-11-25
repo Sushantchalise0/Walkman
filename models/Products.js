@@ -40,7 +40,7 @@ const ProductSchema = new Schema({
 		default: 0
 	},
 	status: {
-		type: String,
+		type: Boolean,
 		default: 0
 	}, 
 	ratings:{
