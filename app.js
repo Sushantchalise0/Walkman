@@ -825,10 +825,19 @@ app.post("/progresses/setProgress", (req, res) => {
 });
 
 
+//Try using params
+
+app.get('/sus', function(req, res){
+
+	var ans = req.query.id;
+	console.log(ans);
+	res.send(ans);
+});
+
 //API TO SERRCH VENDORS
 
 app.get('/vendorSearch', function(req, res) {
-	var query = req.body.query;
+	var query = req.query.vendor_name;
 	
 	
 	var regex = new RegExp(query, 'i');
@@ -847,6 +856,31 @@ app.get('/vendorSearch', function(req, res) {
         }
     })
 })
+
+
+//API TO SERRCH ALL PRODUCTS
+
+app.get('/productSearch', function(req, res) {
+	var query = req.query.product_name;
+	
+	
+	var regex = new RegExp(query, 'i');
+
+	
+    Products.find({
+        name : regex
+    }, function(err, result) {
+        if (err) throw err;
+        if (result) {
+            res.json(result)
+        } else {
+            res.send(JSON.stringify({
+                error : 'Error'
+            }))
+        }
+    })
+})
+
 
 app.get("/subtest", function(req, res) {
 	Subprogress.find({})
