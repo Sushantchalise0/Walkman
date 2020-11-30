@@ -827,11 +827,30 @@ app.post("/progresses/setProgress", (req, res) => {
 
 //Try using params
 
-app.get('/sus', function(req, res){
+app.get('/vendorProductSearch', function(req, res){
 
-	var ans = req.query.id;
-	console.log(ans);
-	res.send(ans);
+	var vendor = req.query.vendor_id;
+	var product = req.query.product_name
+
+			var regex = new RegExp(product, 'i');
+			Products.find({
+				// $and: [
+				// 	{
+				vendor_id: vendor,
+				name : regex
+			// }			]
+			}, function(err, result) {
+				if (err) throw err;
+				if (result) {
+					res.json(result)
+				} else {
+					res.send(JSON.stringify({
+						error : 'Error'
+					}))
+				}
+			})
+		
+	
 });
 
 //API TO SERRCH VENDORS
