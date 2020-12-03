@@ -891,9 +891,9 @@ app.get('/vendorOfProduct', function(req, res){
 			}, function(err, result) {
 				if (err) throw err;
 				if (result) {
-					var _id = result[0].vendor_id;
-					console.log(_id);
-					Vendor.find({_id}).exec(function(err, vendors) {
+					var vendor_id = result[0].vendor_id;
+					//console.log(_id);
+					Vendor.find({ _id : vendor_id}).exec(function(err, vendors) {
 						if (err) {
 							res.json(err);
 						} else {
