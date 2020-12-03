@@ -884,22 +884,19 @@ app.get('/vendorOfProduct', function(req, res){
 
 	var product = req.body.product_id;
 
-			Products.find({
-				
-				_id: product
-			
-			}, function(err, result) {
-				if (err) throw err;
+			Products.findOne({_id: product}).exec(function(err, result) {
+				if (err) return;
 				if (result) {
-					var thisID = result[0].vendor_id;
+					console.log(result);
+					var thisID = result.vendor_id;
 					console.log(thisID);
-					Vendor.find({ _id : thisID}).exec(function(err, vendors) {
-						if (err) {
-							res.json(err);
-						} else {
-							res.json( vendors );
-						}
-					});
+						Vendor.find({ _id : thisID}).exec(function(err1, vendors) {
+							if (err1) {
+								res.json(err1);
+							} else {
+								res.json( vendors );
+							}
+						});
 				} else {
 					res.send(JSON.stringify({
 						error : 'Error'
