@@ -825,7 +825,7 @@ app.post("/progresses/setProgress", (req, res) => {
 });
 
 
-//Try using params
+//API TO SEARCH PRODUCT OF A PARTICULAR VENDOR
 
 app.get('/vendorProductSearch', function(req, res){
 
@@ -849,9 +849,67 @@ app.get('/vendorProductSearch', function(req, res){
 					}))
 				}
 			})
+});
+
+
+//API TO FIND ALL PRODUCTS OF A PARTICULAR VENDOR
+
+app.get('/vendorAllProduct', function(req, res){
+
+	var vendor = req.query.vendor_id;
+
+			Products.find({
+				// $and: [
+				// 	{
+				vendor_id: vendor
+			// }			]
+			}, function(err, result) {
+				if (err) throw err;
+				if (result) {
+					res.json(result)
+				} else {
+					res.send(JSON.stringify({
+						error : 'Error'
+					}))
+				}
+			})
 		
 	
 });
+
+
+//API TO FIND A VENDOR OF A PARTICULAR PRODUCT
+
+app.get('/vendorOfProduct', function(req, res){
+
+	var product = req.body.product_id;
+
+			Products.find({
+				
+				_id: product
+			
+			}, function(err, result) {
+				if (err) throw err;
+				if (result) {
+					var _id = result[0].vendor_id;
+					console.log(_id);
+					Vendor.find({_id}).exec(function(err, vendors) {
+						if (err) {
+							res.json(err);
+						} else {
+							res.json( vendors );
+						}
+					});
+				} else {
+					res.send(JSON.stringify({
+						error : 'Error'
+					}))
+				}
+			})
+		
+	
+});
+
 
 //API TO SERRCH VENDORS
 
