@@ -467,11 +467,11 @@ app.post("/redeem/set", (req, res) => {
 							{ new: true },
 							(err, doc) => {
 								if (err) {
-									res.send("0");
+									res.send("Failed");
 								} else {
 									coup.save().then(
 										doc => {
-											res.send("1");
+											res.send("Success");
 										},
 										e => {
 											res.status(400).send(e);
@@ -484,7 +484,7 @@ app.post("/redeem/set", (req, res) => {
 						);
 					} else {
 						
-						res.send("0");
+						res.send("Insufficient Coin");
 					}
 				}
 			});
