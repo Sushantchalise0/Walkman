@@ -432,9 +432,11 @@ app.post("/getCoupons", (req, res) => {
 app.post("/redeem/set", (req, res) => {
 	var p_coins = req.body.p_coins;
 	var detail = req.body.detail;
+	var myid = new mongoose.Types.ObjectId()
 	var coup = new Coupon({
+		_id: myid,
+		qrKey: myid,
 		detail: req.body.detail,
-		qrKey: req.body.qrKey,
 		productID: req.body.productID,
 		vendorID: req.body.vendorID
 	});
@@ -445,6 +447,8 @@ app.post("/redeem/set", (req, res) => {
 		// .populate("progress")
 		.populate("productID")
 		.exec(function(err, cupon) {
+			
+			
 			/******/
 			//test
 			var detail = req.body.detail;
@@ -459,7 +463,7 @@ app.post("/redeem/set", (req, res) => {
 					if (new_coins >= 0) {
 						Progress.findOneAndUpdate(
 							{ detail: detail },
-							{ $set: { coins: new_coins } },
+							{ $set: { coins: new_coins} },
 							{ new: true },
 							(err, doc) => {
 								if (err) {
@@ -473,15 +477,23 @@ app.post("/redeem/set", (req, res) => {
 											res.status(400).send(e);
 										}
 									);
+										
+
 								}
 							}
 						);
 					} else {
+						
 						res.send("0");
 					}
 				}
 			});
+			
+
+
 		});
+
+		
 	//    var p_coins = req.body.p_coins;
 	//    var u_coins = req.body.u_coins;
 	//    var detail = req.body.detail;
@@ -852,16 +864,16 @@ app.get('/vendorProductSearch', function(req, res){
 });
 
 
-//API TO FIND ALL PRODUCTS OF A PARTICULAR VENDOR
+//API TO FIND ALL PRODUCTS OF A PARTICULAR CATEGORY
 
-app.get('/vendorAllProduct', function(req, res){
+app.get('/categoryAllProduct', function(req, res){
 
-	var vendor = req.query.vendor_id;
+	var category = req.query.cat_id;
 
-			Products.find({
+			Vendors.find({
 				// $and: [
 				// 	{
-				vendor_id: vendor
+				cat_id: category
 			// }			]
 			}, function(err, result) {
 				if (err) throw err;
@@ -873,9 +885,10 @@ app.get('/vendorAllProduct', function(req, res){
 					}))
 				}
 			})
-		
-	
 });
+
+
+
 
 
 //API TO FIND A VENDOR OF A PARTICULAR PRODUCT

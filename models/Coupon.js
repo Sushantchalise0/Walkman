@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const CouponSchema = new Schema({
 
+    _id : { type : String, required : true },
 
    detail: {
     type: Schema.Types.ObjectId,
@@ -32,5 +33,9 @@ const CouponSchema = new Schema({
         default: "0001-01-01"
     },
 });
+
+// CouponSchema.virtual('qrKey').get(function() {
+//     return this._id;
+// });
 
 module.exports = mongoose.model('Coupon', CouponSchema);
