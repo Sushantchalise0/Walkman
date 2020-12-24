@@ -15,7 +15,11 @@ const { mongoDbUrl } = require("./config/database");
 const passport = require("passport");
 // const partnerpassport = require('passport');
 var fs = require("fs");
-const uuidv1 = require("uuid/v1");
+//const uuidv1 = require("uuid/v1");
+
+const { v4: uuidv4 } = require('uuid');
+uuidv4();
+
 var sortBy = require("lodash").sortBy;
 //vendor login
 const bcrypt = require("bcryptjs");
@@ -197,6 +201,83 @@ ProtectedRoutes.use((req, res, next) => {
 		});
 	}
 });
+
+
+//FCM NOTIFICATION
+
+
+module.exports = {
+    notification : function(registrationToken, body) {
+        var admins = require('firebase-admin');
+    
+        var serviceAccount = require('./android-db40e-firebase-adminsdk-7drt7-98c87c2544.json');
+    
+        var Token = registrationToken.fcm;
+
+        admins.initializeApp({
+            credential: admins.credential.cert(serviceAccount),
+            databaseURL: 'https://android-db40e.firebaseio.com',
+            });
+    
+        var payload = {
+            notification:{
+            title:'VisionCare',
+            body: body
+            },
+            android: {
+                notification: {
+                    sound: 'default'
+                },
+            },
+            apns: {
+                payload: {
+                    aps: {
+                        sound: 'default'
+                    },
+                },
+            },
+            token: Token
+        };
+    
+        admins.messaging().send(payload).then(
+            function(response) {
+                console.log('Successfully message sent:', response);
+            })
+            .catch(function(error) {
+                console.log(error);
+        });
+    }
+}
+
+// var admins = require("firebase-admin");
+
+// var serviceAccount = require("./walkmanv3fcm-sdk.json");
+
+// admins.initializeApp({
+//   credential: admins.credential.cert(serviceAccount)
+// });
+
+
+// const notification_options = {
+//     priority: "high",
+//     timeToLive: 60 * 60 * 24
+//   };
+// app.post('/firebase/notification', (req, res)=>{
+//     const  registrationToken = req.body.registrationToken
+//     const message = req.body.message
+//     const options =  notification_options
+    
+//       admins.messaging().sendToDevice(registrationToken, message, options)
+//       .then( response => {
+
+//        res.status(200).send("Notification sent successfully")
+       
+//       })
+//       .catch( error => {
+//           console.log(error);
+//       });
+
+// });
 
 //REQUIRE FOR API
 const Blog = require("./models/Blogs");
@@ -469,7 +550,10 @@ app.post("/redeem/set", (req, res) => {
 								if (err) {
 									res.send("Failed");
 								} else {
+									
 									coup.save().then(
+										// Coupon.findOneAndUpdate({id:myid},
+										// 	{ $set: {qrKey: id}}),
 										doc => {
 											res.send("Success");
 										},

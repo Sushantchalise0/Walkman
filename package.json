@@ -20,6 +20,7 @@
     "express-session": "^1.15.6",
     "faker": "^4.1.0",
     "fcm-notification": "^2.0.0",
+    "firebase-admin": "^9.4.2",
     "flash": "^1.1.0",
     "fs": "0.0.1-security",
     "jsonwebtoken": "^8.4.0",
