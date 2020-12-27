@@ -890,23 +890,31 @@ app.post("/details/updateDetail", (req, res) => {
 app.post("/progresses/setProgress", (req, res) => {
 	var detail = req.body.detail;
 	var distance = req.body.distance;
-	var calorie = req.body.calorie;
-	var coins = req.body.coins;
+	var calorie = distance / 100;
+	var coins = distance / 100;
 	var prog = new Progress({
-		detail: req.body.detail,
-		distance: req.body.distance,
-		calorie: req.body.calorie,
-		coins: req.body.coins
+		detail: detail,
+		distance: distance,
+		calorie: calorie,
+		coins: coins
 	});
-	Progress.findOneAndUpdate(
-		{ detail: detail },
-		{ $set: { coins: coins, distance: distance, calorie: calorie } },
-		{ new: true },
+	Progress.findOne(
+		 {detail: detail} ,
+		// { $set: { coins: coins, distance: distance, calorie: calorie } },
+		// { new: true },
 		(err, doc) => {
 			if (err) {
 				res.send("error");
 			}
-			res.send("send");
+			doc.coins = parseInt(doc.coins) + parseInt(coins);
+			doc.distance =  parseInt(doc.distance) + parseInt(distance);
+			doc.calorie = parseInt(doc.calorie) + parseInt(calorie);
+
+			doc.save((error, updatedDoc) => {
+				if (err) return handleError(err);
+				res.send(doc);
+			});
+			
 			//     prog.save().then((progresses) => {
 			//         res.send(progresses);
 			//     }, (e) => {
