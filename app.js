@@ -301,6 +301,7 @@ const TreasureHuntQuestion = require("./models/TreasureHuntQuestion");
 const SyncWeeklyProgressEmployee = require("./models/SyncWeeklyProgressEmployee");
 const Unitss = require("./models/partner/Units");
 const Vendors = require("./models/Vendors");
+const BillingAddress = require("./models/BillingAddress");
 
 //API CUOPNS
 app.get("/coupons", async (req, res) => {
@@ -511,6 +512,9 @@ app.post("/getCoupons", (req, res) => {
 });
 // coupon create in Coupons tab
 app.post("/redeem/set", (req, res) => {
+
+
+
 	var p_coins = req.body.p_coins;
 	var detail = req.body.detail;
 	var myid = new mongoose.Types.ObjectId()
@@ -926,6 +930,33 @@ app.post("/progresses/setProgress", (req, res) => {
 			//     res.status(400).send(e);
 		}
 	);
+});
+
+
+//API TO SET BILLING ADDRESS
+
+app.post("/Billing/setAddress", (req, res) => {
+	var detail = req.body.detail;
+	var fullName = req.body.fullName;
+	var phoneNumber = req.body.phoneNumber;
+	var province = req.body.province;
+	var city = req.body.city;
+	var address = req.body.address;
+	var addrs = new BillingAddress({
+		detail: detail,
+		fullName: fullName,
+		phoneNumber: phoneNumber,
+		province: province,
+		city: city,
+		address: address
+	});
+	addrs.save().then(done => {
+		if (done) {
+			res.send(addrs);
+		} else {
+			res.send("error");
+		}
+	});
 });
 
 
