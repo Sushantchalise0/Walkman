@@ -302,6 +302,7 @@ const SyncWeeklyProgressEmployee = require("./models/SyncWeeklyProgressEmployee"
 const Unitss = require("./models/partner/Units");
 const Vendors = require("./models/Vendors");
 const BillingAddress = require("./models/BillingAddress");
+const Cart = require("./models/Cart");
 
 //API CUOPNS
 app.get("/coupons", async (req, res) => {
@@ -1007,6 +1008,44 @@ app.get('/billing', (req, res) => {
         res.status(400).send(e);
     });
 });
+
+
+// API TO ADD TO CART
+
+app.post("/Cart/addToCart", (req, res) => {
+	var detail = req.body.detail;
+	var productID = req.body.productID;
+	//var myid = mongoose.Types.ObjectId();
+	var cart = new Cart({
+	//	_id: myid,
+		detail: detail,
+		productID: productID
+	});
+	Cart.updateOne(
+		{ detail: detail}, 
+		{ $push: { productID: productID  } },
+		{upsert : true},
+	   function (error, success) {
+			 if (error) {
+				 //console.log(error);
+				 res.send(error);
+			 } else {
+				 //console.log(success);
+				 res.send(cart)
+			 }
+		 });
+	
+	// cart.save().then(done => {
+	// 	if (done) {
+	// 		res.send(cart);
+	// 	} else {
+	// 		res.send("error");
+	// 	}
+	// });
+});
+
+
+
 
 
 //API TO SEARCH PRODUCT OF A PARTICULAR VENDOR
