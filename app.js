@@ -960,6 +960,49 @@ app.post("/Billing/setAddress", (req, res) => {
 });
 
 
+//API TO EDIT BILLING ADDRESS
+app.post("/billing/updateAddress", (req, res) => {
+	var _id = req.body.id;
+	var fullName = req.body.fullName;
+	var phoneNumber = req.body.phoneNumber;
+	var province = req.body.province;
+	var city = req.body.city;
+	var address = req.body.address;
+	var addrs = new BillingAddress({
+		//detail: detail,
+		fullName: fullName,
+		phoneNumber: phoneNumber,
+		province: province,
+		city: city,
+		address: address
+	});
+	BillingAddress.findByIdAndUpdate(
+		{ _id: _id  },
+		{ $set: { fullName: fullName, phoneNumber: phoneNumber, province: province, city: city, address: address} },
+	//	{ new: true },
+		(err, doc) => {
+			if (err) {
+				res.send("error");
+			}
+			res.send(doc);
+		}
+	);
+});
+
+
+//API GET ALL BILLING ADDRESS
+app.get('/billing', (req, res) => {
+
+	var detail = req.query.detail;
+    BillingAddress.find({detail: detail})
+    .then((addrs) => {
+        res.send({addrs});
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
+
 //API TO SEARCH PRODUCT OF A PARTICULAR VENDOR
 
 app.get('/vendorProductSearch', function(req, res){
