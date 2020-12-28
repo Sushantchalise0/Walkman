@@ -1035,17 +1035,48 @@ app.post("/Cart/addToCart", (req, res) => {
 			 }
 		 });
 	
-	// cart.save().then(done => {
-	// 	if (done) {
-	// 		res.send(cart);
-	// 	} else {
-	// 		res.send("error");
-	// 	}
-	// });
 });
 
 
+// API TO REMOVE PRODUCT FORM A CART
 
+app.post("/Cart/removeFromCart", (req, res) => {
+	var detail = req.body.detail;
+	var productID = req.body.productID;
+	//var myid = mongoose.Types.ObjectId();
+	var cart = new Cart({
+	//	_id: myid,
+		detail: detail,
+		productID: productID
+	});
+	Cart.updateOne(
+		{ detail: detail}, 
+		{ $pull: { productID: productID  } },
+		//{upsert : true},
+	   function (error, success) {
+			 if (error) {
+				 //console.log(error);
+				 res.send(error);
+			 } else {
+				 //console.log(success);
+				 res.send(cart)
+			 }
+		 });
+	
+});
+
+
+//API GET ALL PRODUCTS IN CART	
+app.get('/cart', (req, res) => {
+
+	var detail = req.query.detail;
+    Cart.find({detail: detail})
+    .then((Cart) => {
+        res.send({Cart});
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
 
 
 //API TO SEARCH PRODUCT OF A PARTICULAR VENDOR
