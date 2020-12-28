@@ -766,22 +766,28 @@ app.post("/details/registration", (req, res) => {
 
 	Detail.find({ email_id }).then(data => {
 		//console.log((data));
-		details.save().then(
-			docs => {
-				// console.log(details._id);
-				var progresses = new Progress({
-					detail: details._id,
-					distance: 0,
-					coins: 100
-				});
-				progresses.save().then(done => {
-					res.send(docs);
-				});
-			},
-			e => {
-				res.status(400).send(e);
-			}
-		);
+		if (isEmptyObject(data)) {
+			//return res.send("user doesnot exists");
+			details.save().then(
+				docs => {
+					// console.log(details._id);
+					var progresses = new Progress({
+						detail: details._id,
+						distance: 0,
+						coins: 100
+					});
+					progresses.save().then(done => {
+						res.send(docs);
+					});
+				},
+				e => {
+					res.status(400).send(e);
+				}
+			);  
+		} else {
+			return res.send("user exists");
+		
+	}
 	});
 });
 
