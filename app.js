@@ -1069,8 +1069,12 @@ app.post("/Cart/removeFromCart", (req, res) => {
 //API GET ALL PRODUCTS IN CART	
 app.get('/cart', (req, res) => {
 
-	var detail = req.query.detail;
-    Cart.find({detail: detail})
+	 var detail = req.query.detail;
+	 Cart.find({detail: detail})
+	 .populate('productID') // multiple path names in one requires mongoose >= 3.6
+    //  .exec(function(err, usersDocuments) {
+	// 	res.send(usersDocuments);
+    // });
     .then((Cart) => {
         res.send({Cart});
     }, (e) => {
