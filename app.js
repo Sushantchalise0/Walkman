@@ -613,36 +613,8 @@ app.post("/redeem/set", (req, res) => {
 	//        });
 });
 
-//API GET ALL BLOG
-// app.get('/blogs', (req, res) => {
-//     Blog.find().sort({date: 1})
-//     .then((blogs) => {
-//         res.send({blogs});
-//     }, (e) => {
-//         res.status(400).send(e);
-//     });
-// });
-//API GET ALL tests
-// app.get('/tests',function(req, res){
-//     Test.find().sort({date: 1})
-//     .exec(function(err, tests) {
-//         if(err) {
-//             res.json(err);
-//         } else {
-//             res.json({tests});
-//         }
-//     });
-// });
 
-// //API GET ALL SPONSERS
-// app.get('/sponsers', (req, res) => {
-//     Sponser.find().sort({coins: 1})
-//     .then((sponsers) => {
-//         res.send({sponsers});
-//     }, (e) => {
-//         res.send(400).send(e);
-//     });
-// });
+
 
 //API GET USER
 app.get("/details", (req, res) => {
@@ -740,18 +712,6 @@ ProtectedRoutes.get("/leaderboardsecured", function(req, res) {
 //   });
 //   });
 
-// //API ADD USER PROGRESS
-// app.post('/progress', (req, res) => {
-//     var progress = new Progress({
-//         detail: req.body.detail
-//     });
-
-//     progress.save().then((docs) => {
-//         res.send(docs);
-//     }, (e) => {
-//         res.status(400).send(e);
-//     });
-// });
 
 //API ADD NEW USERS 
 app.post("/details/registration", (req, res) => {
@@ -915,8 +875,8 @@ app.post("/progresses/setProgress", (req, res) => {
 		distance: distance,
 		calorie: calorie,
 		coins: coins,
-		carbon_red: carbon_red,
-		time: time
+		carbon_red: carbon_red
+		//time: time
 	});
 	Progress.findOneAndUpdate(
 		 {detail: detail} ,
@@ -950,6 +910,43 @@ app.post("/progresses/setProgress", (req, res) => {
 		}
 	);
 });
+
+
+
+//API SET PROGRESS
+app.post("/progresses/setProgress1", (req, res) => {
+	var detail = req.body.detail;
+	var distance = req.body.distance;
+	var start_time = req.body.start_time;
+	var end_time = req.body.end_time;
+	var time = {
+		"start_time": start_time,
+		"end_time": end_time
+	};
+	var calorie = distance / 100;
+	var coins = distance / 100;
+	var carbon_red = distance * 35;
+	var prog = new Progress({
+		detail: detail,
+		distance: distance,
+		calorie: calorie,
+		coins: coins,
+		carbon_red: carbon_red,
+		time: time
+	});
+
+	Progress.update(
+		{detail: detail} ,
+		{ $push: {time : time  } },
+	   { $inc: { coins: coins, distance: distance, calorie: calorie, carbon_red: carbon_red } },
+		function(err, data){
+			if(err) res.send("error");
+			else res.send(data);
+		}
+	);
+	
+});
+
 
 
 //API TO SET BILLING ADDRESS
