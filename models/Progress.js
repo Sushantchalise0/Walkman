@@ -25,7 +25,12 @@ const ProgressSchema = new Schema({
     coins: {
         type: Number,
         default: 0
-    }
+    },
+
+    time: [{
+        start_time: Number,
+        end_time: Number
+    }]
 });
 
 module.exports = mongoose.model('Progress', ProgressSchema);
