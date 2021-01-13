@@ -879,7 +879,7 @@ app.post("/progresses/setProgress", (req, res) => {
 		carbon_red: carbon_red,
 		time: time
 	});
-	Progress.findOneAndUpdate(
+	Progress.update(
 		 {detail: detail} ,
 		 { $push: {time : time  } },
 		// { $inc: { coins: coins, distance: distance, calorie: calorie, carbon_red: carbon_red } },
