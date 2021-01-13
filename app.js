@@ -738,7 +738,7 @@ app.post("/details/registration", (req, res) => {
 						coins: 100
 					});
 					progresses.save().then(done => {
-						res.send(docs);
+						res.status(200).send(docs);
 					});
 				},
 				e => {
@@ -811,9 +811,9 @@ app.post("/progresses/getProgress", (req, res) => {
 
 //API TO GETDETAIL
 app.post("/details/getDetails", (req, res) => {
-	var fb_id = req.body.fb_id;
+	var email_id = req.body.fb_id;
 
-	Detail.find({ fb_id }).then(
+	Detail.find({ email_id }).then(
 		data => {
 			if (isEmptyObject(data)) {
 				return res.send("nodata");
