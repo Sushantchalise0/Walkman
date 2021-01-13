@@ -895,7 +895,7 @@ app.post("/progresses/setProgress", (req, res) => {
 			doc.carbon_red = parseInt(doc.carbon_red) + parseInt(carbon_red);
 			//doc.time = time;
 
-			doc.save((error, updatedDoc) => {
+			prog.save((error, updatedDoc) => {
 				if (error) return handleError(err);
 				res.send(prog);
 			});
