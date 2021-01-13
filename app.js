@@ -813,12 +813,12 @@ app.post("/progresses/getProgress", (req, res) => {
 app.post("/details/getDetails", (req, res) => {
 	var email_id = req.body.fb_id;
 
-	Detail.find({ email_id }).then(
+	Detail.find( {email_id} ).then(
 		data => {
 			if (isEmptyObject(data)) {
-				return res.send("nodata");
+				return res.status(204);
 			} else {
-				return res.send({ data });
+				return res.send( data[0] );
 			}
 		},
 		e => {
