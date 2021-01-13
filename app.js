@@ -767,8 +767,8 @@ app.post("/userExists", (req, res) => {
 });
 
 //API GET ONES POSITION
-app.get("/position/:id", (req, res) => {
-	var detail = req.params.id;
+app.get("/position", (req, res) => {
+	var detail = req.query.id;
 	Progress.find({ detail }).then(progresses => {
 		var obj = JSON.stringify(progresses);
 		//  console.log(obj)
@@ -865,7 +865,8 @@ app.post("/progresses/setProgress", (req, res) => {
 	var end_time = req.body.end_time;
 	var time = {
 		start_time: start_time,
-		end_time: end_time
+		end_time: end_time,
+		count: distance
 	};
 	var calorie = distance / 100;
 	var coins = distance / 100;
@@ -875,8 +876,8 @@ app.post("/progresses/setProgress", (req, res) => {
 		distance: distance,
 		calorie: calorie,
 		coins: coins,
-		carbon_red: carbon_red
-		//time: time
+		carbon_red: carbon_red,
+		time: time
 	});
 	Progress.findOneAndUpdate(
 		 {detail: detail} ,
@@ -892,10 +893,11 @@ app.post("/progresses/setProgress", (req, res) => {
 			doc.distance =  parseInt(doc.distance) + parseInt(distance);
 			doc.calorie = parseInt(doc.calorie) + parseInt(calorie);
 			doc.carbon_red = parseInt(doc.carbon_red) + parseInt(carbon_red);
+			//doc.time = time;
 
 			doc.save((error, updatedDoc) => {
-				if (err) return handleError(err);
-				res.send(doc);
+				if (error) return handleError(err);
+				res.send(prog);
 			});
 			
 			//     prog.save().then((progresses) => {
@@ -920,8 +922,9 @@ app.post("/progresses/setProgress1", (req, res) => {
 	var start_time = req.body.start_time;
 	var end_time = req.body.end_time;
 	var time = {
-		"start_time": start_time,
-		"end_time": end_time
+		start_time: start_time,
+		end_time: end_time,
+		count: distance
 	};
 	var calorie = distance / 100;
 	var coins = distance / 100;
@@ -940,8 +943,9 @@ app.post("/progresses/setProgress1", (req, res) => {
 		{ $push: {time : time  } },
 	   { $inc: { coins: coins, distance: distance, calorie: calorie, carbon_red: carbon_red } },
 		function(err, data){
+			console.log(data);
 			if(err) res.send("error");
-			else res.send(data);
+			else res.send(prog);
 		}
 	);
 	
@@ -1514,16 +1518,27 @@ app.get("/products", async (req, res) => {
 
 //API total steps in db
 app.get("/totalsteps", function(req, res) {
+	console.log("fkjvdkfjndfb")
 	Progress.find({}).exec(function(err, progress) {
 		if (err) {
 			res.json(err);
 		} else {
+			var user_step ;
 			var datalen = progress.length;
 			var totalsteps = 0;
 			for (var i = 0; i < datalen; i++) {
 				totalsteps = totalsteps + progress[i].distance;
+				if(progress[i].detail === req.body.detail) {
+					user_step = progress[i].distance;
+				}
 			}
-			res.json({ totalsteps });
+			res.status(201).send({
+				"user_step": user_step,
+				"total_step": totalsteps
+			})
+			
+
+
 		}
 	});
 });

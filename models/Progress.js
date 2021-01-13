@@ -29,7 +29,8 @@ const ProgressSchema = new Schema({
 
     time: [{
         start_time: Number,
-        end_time: Number
+        end_time: Number,
+        count: Number
     }]
 });
 
