@@ -879,16 +879,21 @@ app.post("/progresses/setProgress", (req, res) => {
 		carbon_red: carbon_red,
 		time: time
 	});
-	Progress.update(
+	console.log(detail);
+	if(detail === undefined) res.send('pass detail');
+	else{ 
+	Progress.findOneAndUpdate(
 		 {detail: detail} ,
 		 { $push: {time : time  } },
 		// { $inc: { coins: coins, distance: distance, calorie: calorie, carbon_red: carbon_red } },
 		// { $set: { coins: coins, distance: distance, calorie: calorie } },
-		// { new: true },
+		 { new: true },
+		
 		(err, doc) => {
 			if (err) {
 				res.send("error");
 			}
+			
 			doc.coins = parseInt(doc.coins) + parseInt(coins);
 			doc.distance =  parseInt(doc.distance) + parseInt(distance);
 			doc.calorie = parseInt(doc.calorie) + parseInt(calorie);
@@ -897,6 +902,7 @@ app.post("/progresses/setProgress", (req, res) => {
 
 			prog.save((error, updatedDoc) => {
 				if (error) return handleError(err);
+				//console.log(doc);
 				res.send(prog);
 			});
 			
@@ -911,6 +917,7 @@ app.post("/progresses/setProgress", (req, res) => {
 			//     res.status(400).send(e);
 		}
 	);
+}
 });
 
 
