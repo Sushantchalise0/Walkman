@@ -796,13 +796,13 @@ app.get("/position", (req, res) => {
 app.post("/progresses/getProgress", (req, res) => {
 	var detail = req.body.detail;
 
-	Progress.find({ detail })
+	Progress.find({ detail }, 'distance calorie carbon_red')
 		.then(progresses => {
 			// console.log(detail);
 			if (!progresses) {
 				return res.status(404).send();
 			}
-			res.json({ progresses });
+			res.json( progresses );
 		})
 		.catch(e => {
 			res.status(400).send();
