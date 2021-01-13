@@ -887,7 +887,7 @@ app.post("/progresses/setProgress", (req, res) => {
 		 { $push: {time : time  } },
 		// { $inc: { coins: coins, distance: distance, calorie: calorie, carbon_red: carbon_red } },
 		// { $set: { coins: coins, distance: distance, calorie: calorie } },
-		 { new: true },
+		 //{ new: true },
 		
 		(err, doc) => {
 			if (err) {
@@ -900,7 +900,7 @@ app.post("/progresses/setProgress", (req, res) => {
 			doc.carbon_red = parseInt(doc.carbon_red) + parseInt(carbon_red);
 			//doc.time = time;
 
-			prog.save((error, updatedDoc) => {
+			doc.save((error, updatedDoc) => {
 				if (error) return handleError(err);
 				//console.log(doc);
 				res.send(prog);
@@ -1525,7 +1525,8 @@ app.get("/products", async (req, res) => {
 
 //API total steps in db
 app.get("/totalsteps", function(req, res) {
-	console.log("fkjvdkfjndfb")
+	var detail = req.body.detail
+	
 	Progress.find({}).exec(function(err, progress) {
 		if (err) {
 			res.json(err);
@@ -1533,10 +1534,12 @@ app.get("/totalsteps", function(req, res) {
 			var user_step ;
 			var datalen = progress.length;
 			var totalsteps = 0;
+			
 			for (var i = 0; i < datalen; i++) {
 				totalsteps = totalsteps + progress[i].distance;
-				if(progress[i].detail === req.body.detail) {
+				if(progress[i].detail == detail) {
 					user_step = progress[i].distance;
+					console.log(user_step);	
 				}
 			}
 			res.status(201).send({
