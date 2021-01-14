@@ -1524,7 +1524,7 @@ app.get("/products", async (req, res) => {
 // });
 
 //API total steps in db
-app.get("/totalsteps", function(req, res) {
+app.post("/totalsteps", function(req, res) {
 	var detail = req.body.detail
 	
 	Progress.find({}).exec(function(err, progress) {
