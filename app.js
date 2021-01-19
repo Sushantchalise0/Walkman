@@ -767,21 +767,22 @@ app.post("/userExists", (req, res) => {
 });
 
 //API GET ONES POSITION
-app.get("/position", (req, res) => {
-	var detail = req.query.id;
+app.get("/position/:id", (req, res) => {
+	var detail = req.params.id;
+	console.log(detail);
 	Progress.find({ detail }).then(progresses => {
 		var obj = JSON.stringify(progresses);
-		//  console.log(obj)
-		// console.log(obj.substring(13, 14));
-		var dis = parseInt(obj.substring(13, 15));
-		// console.log(dis);
+		  console.log(obj)
+		 console.log(obj.substring(13, 14));
+		var dis = parseInt(obj.substring(13, 22));
+		console.log(dis);
 		Progress.find({ distance: { $gt: dis } })
-			.count(function(err, count) {
-				count = count + 1;
+			.count(function(err, pos) {
+				pos = pos + 1;
 				if (!progresses) {
 					return res.status(404).send();
 				}
-				res.json(count);
+				res.json(pos);
 
 				//console.log('your position is  %d', count);
 				//});
