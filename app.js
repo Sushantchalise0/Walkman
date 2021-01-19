@@ -869,6 +869,7 @@ app.post("/progresses/setProgress", (req, res) => {
 		end_time: end_time,
 		count: distance
 	};
+	//var doc ={};
 	var calorie = distance / 100;
 	var coins = distance / 100;
 	var carbon_red = distance * 35;
@@ -880,7 +881,6 @@ app.post("/progresses/setProgress", (req, res) => {
 		carbon_red: carbon_red,
 		time: time
 	});
-	console.log(detail);
 	if(detail === undefined) res.send('pass detail');
 	else{ 
 	Progress.findOneAndUpdate(
@@ -891,10 +891,15 @@ app.post("/progresses/setProgress", (req, res) => {
 		 //{ new: true },
 		
 		(err, doc) => {
+			console.log(doc);
 			if (err) {
 				res.send("error");
 			}
+			else if(doc === null) {
+				res.status(404).send('Invalid User');
+			}
 			
+			else{
 			doc.coins = parseInt(doc.coins) + parseInt(coins);
 			doc.distance =  parseInt(doc.distance) + parseInt(distance);
 			doc.calorie = parseInt(doc.calorie) + parseInt(calorie);
@@ -906,6 +911,7 @@ app.post("/progresses/setProgress", (req, res) => {
 				//console.log(doc);
 				res.send(prog);
 			});
+		}
 			
 			//     prog.save().then((progresses) => {
 			//         res.send(progresses);
