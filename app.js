@@ -1161,7 +1161,28 @@ app.get('/categoryAllProduct', function(req, res){
 });
 
 
+//API TO FIND ALL PRODUCTS OF A PARTICULAR VENDOR
 
+app.get('/vendorAllProduct', function(req, res){
+
+	var vendor = req.query.vendor_id;
+
+			Products.find({
+				// $and: [
+				// 	{
+				vendor_id: vendor
+			// }			]
+			}, function(err, result) {
+				if (err) throw err;
+				if (result) {
+					res.json(result)
+				} else {
+					res.send(JSON.stringify({
+						error : 'Error'
+					}))
+				}
+			})
+});
 
 
 //API TO FIND A VENDOR OF A PARTICULAR PRODUCT
