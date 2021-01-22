@@ -47,6 +47,9 @@ router.post('/create', (req, res) => {
 
         errors.push({message: 'please add discounts'});
     }
+    if(!req.body.type){
+        error.push({message: 'please add product type'});
+    }
     if(errors.length > 0){
 
         res.render('admin/products/create', {
@@ -86,7 +89,8 @@ router.post('/create', (req, res) => {
         act_price: req.body.act_price,
         walkman_price:req.body.walkman_price,
         disc_price: req.body.disc_price,
-        img: '/uploads/products/' + filename
+        img: '/uploads/products/' + filename,
+        type: req.body.type
    });
 
    newProducts.save().then(savednewProducts => {
@@ -150,7 +154,7 @@ router.get('/edit/:id', (req, res) => {
         products.walkman_price=req.body.walkman_price;
         products.act_price = req.body.act_price;
         products.disc_price = req.body.disc_price;
-        
+        products.type = req.body.type;
 
         if(!isEmpty(req.files)){
 
