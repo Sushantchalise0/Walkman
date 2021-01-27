@@ -1552,29 +1552,47 @@ app.get("/products", async (req, res) => {
 // });
 
 //API total steps in db
-app.post("/totalsteps", function(req, res) {
+app.post("/userProfile", function(req, res) {
 	var detail = req.body.detail
 	
 	Progress.find({}).exec(function(err, progress) {
 		if (err) {
 			res.json(err);
 		} else {
-			var user_step ;
+			var user_step = 0;
 			var datalen = progress.length;
 			var totalsteps = 0;
+			var totalcoins = 0;
+			var user_coins = 0;
+			var pos ;
+			var carbon_red;
 			
 			for (var i = 0; i < datalen; i++) {
 				totalsteps = totalsteps + progress[i].distance;
+				totalcoins = totalcoins + progress[i].coins;
 				if(progress[i].detail == detail) {
+					var dis = progress[i].distance;
+					console.log(dis);
+					
 					user_step = progress[i].distance;
+					user_coins = progress[i].coins;
+					carbon_red = user_step * 35;
 					console.log(user_step);	
+					console.log(carbon_red);
 				}
 			}
-			res.status(201).send({
+			Progress.find({ distance: { $gt: dis } }).count(function(err, position) {
+						pos = ++position;
+					
+				res.status(201).send({
 				"user_step": user_step,
-				"total_step": totalsteps
+				"total_step": totalsteps,
+				"total_coins": totalcoins,
+				"user_coins": user_coins,
+				"position": pos,
+				"carbon_reduced": carbon_red
 			})
-			
+		});
 
 
 		}
