@@ -1356,6 +1356,79 @@ app.post("/subprogress", (req, res) => {
 	//          });
 });
 
+
+// app.post("/subprogress", async (req, res) => {
+// 	try {
+// 	  var dft = req.body.subProgress;
+// 	  //console.log(dft);
+// 	  //var databody = dft.replace(/\\/g, "");
+// 		//var databody=req.body;
+// 	  var fg = JSON.parse(dft);
+// 	  console.log(fg);
+  
+
+// 	  var obj = fg.subProgress.length;
+// 	  var docs = [];
+// 	  var dist = "";
+// 	  var dat = "";
+// 	  var forcount = 0;
+// 	  for (var i = 0; i < obj; i++) {
+// 		docs[i] = fg.subProgress[i];
+// 		const subprogressLoop = new Subprogress({
+// 		  distance: docs[i].distance,
+// 		  date: docs[i].date,
+// 		  detail: fg.detail,
+// 		});
+// 		var det = fg.detail;
+// 		var dist = docs[i].distance;
+// 		var dat = docs[i].date;
+
+// 		await Subprogress.findOneAndUpdate(
+// 		  {
+// 			detail: det,
+// 			date: dat,
+// 		  },
+// 		  {
+// 			$set: {
+// 			  distance: dist,
+// 			},
+// 		  },
+// 		  { new: true },
+// 		  (err, doc) => {
+// 			//		console.log(doc);
+// 			if (doc == null) {
+// 			  console.log("inside error");
+// 			  subprogressLoop.save();
+// 			} else {
+// 			  console.log("update success");
+// 			}
+// 		  }
+// 		);
+// 		// console.log("after looped");
+// 		forcount++;
+// 		//console.log(forcount);
+// 	  }
+// 	  if (obj == forcount) {
+// 		var body = {};
+// 		body.result = "1";
+// 		body.message = "Successfully synced daily data";
+// 		res.json(body);
+// 	  } else {
+// 		var body = {};
+// 		body.result = "0";
+// 		body.message = "Failed to synced daily data";
+// 		res.json(body);
+// 	  }
+// 	} catch (err) {
+// 	  var body = {};
+// 	  body.result = "0";
+// 	  body.message = "Failed to synced daily data (From Catch)";
+// 	  res.json(body);
+// 	}
+//   });
+  
+
+
 // //API user PROGRESS weekly
 app.post("/progressweek", (req, res) => {
 	var userid = req.body.detail;
