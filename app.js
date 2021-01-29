@@ -1772,7 +1772,7 @@ app.post("/getPartnerVendor", (req, res) => {
 		if (err) {
 			res.json(0);
 		} else {
-			res.json({ vendorPartner });
+			res.json( vendorPartner );
 		}
 	});
 });
