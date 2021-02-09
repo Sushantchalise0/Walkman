@@ -1482,7 +1482,7 @@ app.post("/vendorlogin", (req, res) => {
 		// console.log(vendorlog);
 		// console.log(vendorlog.password);
 		if (isEmptyObject(vendorlog)) {
-			return res.send({ vendors: {} });
+			return res.status(400).send({ vendors: {} });
 		} else {
 			// console.log("I am here");
 			// console.log(password);
@@ -1490,20 +1490,20 @@ app.post("/vendorlogin", (req, res) => {
 			// var data = bcrypt.stringify(vendorlog.password);
 			// console.log(data);
 			bcrypt.compare(password, vendorlog.password, (err, matched) => {
-				if (err) return res.send({ vendors: {} });
+				if (err) return res.status(400).send({ vendors: {} });
 
 				if (matched) {
 					// console.log("matched password from Vendor");
 					var rama = vendorlog.vendor_id;
 					Vendor.findOne({ _id: rama }).then(vendors => {
 						if (isEmptyObject(vendors)) {
-							return res.send({ vendors: {} });
+							return res.status(400).send({ vendors: {} });
 						} else {
-							res.send({ vendors: vendors });
+							res.status(200).send({ vendors: vendors });
 						}
 					});
 				} else {
-					return res.send({ vendors: {} });
+					return res.status(400).send({ vendors: {} });
 				}
 			});
 		}
