@@ -861,7 +861,8 @@ app.post("/details/updateDetail", (req, res) => {
 
 //API TO SEND THE LAST UPDATED AND COINS FACTOR
 app.get("/viewTime", (req, res) => {
-	var detail = req.body.detail;
+	var detail = req.query.detail;
+	console.log(detail);
 	var coin_factor = 0.001;
 	Progress.find({detail: detail}, (err, doc) => {
 		if (err) {
