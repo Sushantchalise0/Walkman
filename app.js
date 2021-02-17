@@ -331,7 +331,7 @@ app.post("/verified", (req, res) => {
 			Coupon.find({ qrKey: qrKey, vendorID: vendorID, v_status: "false" }).then(
 				available => {
 					if (isEmptyObject(available)) {
-						res.send({ productObject: {} });
+						res.status(404).send({ productObject: {} });
 					} else {
 						// console.log(available[0].productID);
 						Products.find({
@@ -424,7 +424,7 @@ app.post("/verified", (req, res) => {
 	Coupon.find({ qrKey: qrKey, vendorID: vendorID, v_status: "false" }).then(
 		available => {
 			if (isEmptyObject(available)) {
-				res.send({ productObject: {} });
+				res.status(404).send({ productObject: {} });
 			} else {
 				Coupon.findOneAndUpdate(
 					{ vendorID: vendorID, qrKey: qrKey, v_status: "false" },
@@ -432,7 +432,7 @@ app.post("/verified", (req, res) => {
 					{ new: true },
 					(err, doc) => {
 						if (err) {
-							res.send({ productObject: {} });
+							res.status(400).send({ productObject: {} });
 						} else {
 							Coupon.find({
 								qrKey: qrKey,
@@ -444,7 +444,7 @@ app.post("/verified", (req, res) => {
 									if (isEmptyObject(available)) {
 										res.send({ productObject: {} });
 									} else {
-										res.send({
+										res.status(200).send({
 											productObject: {
 												name: available[0].productID.name,
 												img: available[0].productID.img,
@@ -735,7 +735,8 @@ app.post("/details/registration", (req, res) => {
 					var progresses = new Progress({
 						detail: details._id,
 						distance: 0,
-						coins: 100
+						coins: 100,
+						last_updated: Date.now()
 					});
 					progresses.save().then(done => {
 						res.status(200).send(docs);
@@ -855,6 +856,39 @@ app.post("/details/updateDetail", (req, res) => {
 			res.send("send");
 		}
 	);
+});
+
+
+//API TO SEND THE LAST UPDATED AND COINS FACTOR
+app.get("/viewTime", (req, res) => {
+	var detail = req.body.detail;
+	var coin_factor = 0.001;
+	Progress.find({detail: detail}, (err, doc) => {
+		if (err) {
+			res.status(400).send("error");
+		}
+		var last_updated = doc[0].last_updated;
+		res.status(201).send({
+			"coin_factor": coin_factor,
+			"last_updated": last_updated
+	})
+	});
+});
+	
+
+
+app.post("/updateTime", (req, res) => {
+	var last_updated = req.body.last_updated;
+	var detail = req.body.detail
+	Progress.findOneAndUpdate({detail: detail},
+		{$set: {last_updated: last_updated}},
+	{$new: true},
+	(err, doc) => {
+		if (err){
+			res.status(400).send("error");
+		}
+		res.status(200).send("time updated");
+	});
 });
 
 

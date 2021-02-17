@@ -32,7 +32,11 @@ const DetailSchema = new Schema({
     dob: {
         type: String,
         default: '1990-10-12'
-    }
+    },
+    created_date: {
+		type: String,
+		default: Date.now
+	}
 
 });
 

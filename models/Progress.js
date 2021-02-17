@@ -1,3 +1,4 @@
+const { date } = require('faker');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ProgressSchema = new Schema({
@@ -25,6 +26,11 @@ const ProgressSchema = new Schema({
     coins: {
         type: Number,
         default: 0
+    },
+
+    last_updated: {
+        type: String,
+        default: Date.now
     },
 
     time: [{
