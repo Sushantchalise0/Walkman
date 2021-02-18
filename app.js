@@ -862,17 +862,21 @@ app.post("/details/updateDetail", (req, res) => {
 //API TO SEND THE LAST UPDATED AND COINS FACTOR
 app.get("/viewTime", (req, res) => {
 	var detail = req.query.detail;
-	console.log(detail);
+	//console.log(detail);
 	var coin_factor = 0.001;
 	Progress.find({detail: detail}, (err, doc) => {
+	//	console.log(doc.length);
 		if (err) {
 			res.status(400).send("error");
 		}
-		var last_updated = doc[0].last_updated;
+		else if(doc.length === 0) {
+			res.status(404).send('Invalid User');
+		}
+		else {var last_updated = doc[0].last_updated;
 		res.status(201).send({
 			"coin_factor": coin_factor,
 			"last_updated": last_updated
-	})
+	})}
 	});
 });
 	
