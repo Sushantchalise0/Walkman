@@ -883,8 +883,12 @@ app.get("/viewTime", (req, res) => {
 
 
 app.post("/updateTime", (req, res) => {
-	var last_updated = req.body.last_updated;
-	var detail = req.body.detail
+	var last_updated = Date.now();
+	var detail = req.body.detail;
+	var distance = req.body.distance;
+	var calorie = distance / 100;
+	var coins = distance / 100;
+	var carbon_red = distance * 35;
 	Progress.findOneAndUpdate({detail: detail},
 		{$set: {last_updated: last_updated}},
 	{$new: true},
@@ -892,7 +896,24 @@ app.post("/updateTime", (req, res) => {
 		if (err){
 			res.status(400).send("error");
 		}
-		res.status(200).send("time updated");
+		else if(doc.length === 0) {
+			res.status(404).send('Invalid User');
+		}
+		else{
+			doc.coins = parseInt(doc.coins) + parseInt(coins);
+			doc.distance =  parseInt(doc.distance) + parseInt(distance);
+			doc.calorie = parseInt(doc.calorie) + parseInt(calorie);
+			doc.carbon_red = parseInt(doc.carbon_red) + parseInt(carbon_red);
+			//doc.time = time;
+
+			doc.save((error, updatedDoc) => {
+				if (error) return handleError(err);
+				//console.log(doc);
+				res.status(201).send(doc);
+			});
+		
+		}
+		
 	});
 });
 
