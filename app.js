@@ -958,7 +958,9 @@ app.post("/progresses/setProgress", (req, res) => {
 			else if(doc === null) {
 				res.status(404).send('Invalid User');
 			}
-			
+			else if(distance < 0) {
+				res.send("null");
+			}
 			else{
 			doc.coins = parseInt(doc.coins) + parseInt(coins);
 			doc.distance =  parseInt(doc.distance) + parseInt(distance);
