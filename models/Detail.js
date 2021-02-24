@@ -35,7 +35,7 @@ const DetailSchema = new Schema({
     },
     created_date: {
 		type: String,
-		default: Date.now
+		default: 0
 	}
 
 });

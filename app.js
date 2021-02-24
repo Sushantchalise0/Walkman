@@ -718,11 +718,14 @@ app.post("/details/registration", (req, res) => {
 	var user_img = req.body.user_img;
 	var email_id = req.body.email_id;
 	var user_name = req.body.user_name;
+	var last_updated = Date.now();
+	var created_date = Date.now();
 
 	var details = new Detail({
 		user_name: user_name,
 		user_img: user_img,
-		email_id: email_id
+		email_id: email_id,
+		created_date: created_date,
 	});
 
 	Detail.find({ email_id }).then(data => {
@@ -736,7 +739,7 @@ app.post("/details/registration", (req, res) => {
 						detail: details._id,
 						distance: 0,
 						coins: 100,
-						last_updated: Date.now()
+						last_updated: last_updated
 					});
 					progresses.save().then(done => {
 						res.status(200).send(docs);
@@ -747,6 +750,7 @@ app.post("/details/registration", (req, res) => {
 				}
 			);  
 		} else {
+			console.log(data);
 			return res.send("user exists");
 		
 	}
@@ -754,16 +758,35 @@ app.post("/details/registration", (req, res) => {
 });
 
 //API TO CHECK IS USER EXISTS
+// app.post("/userExists", (req, res) => {
+// 	var email_id = req.body.email_id;
+
+// 	Detail.find({ email_id },  {$set:{created_date:Date.now()}}, {new: true}).then(data => {
+// 		// console.log((data));
+// 		if (isEmptyObject(data)) {
+// 			return res.send("false");
+// 		} else {
+// 			return res.send("true");
+// 		}
+// 	});
+// });
+
+
 app.post("/userExists", (req, res) => {
 	var email_id = req.body.email_id;
 
-	Detail.find({ email_id }).then(data => {
-		// console.log((data));
-		if (isEmptyObject(data)) {
+	Detail.findOneAndUpdate({ email_id : email_id}, {$set:{created_date:Date.now()}}, {new: true}, (err, doc) => {
+		if (err) {
+			console.log("Something wrong when updating data!");
+			return res.status(400).send("error");
+		} else if(doc === null){
+			console.log(doc);
 			return res.send("false");
 		} else {
 			return res.send("true");
 		}
+	
+		console.log(doc);
 	});
 });
 
