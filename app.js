@@ -922,6 +922,9 @@ app.post("/updateTime", (req, res) => {
 		else if(doc.length === 0) {
 			res.status(404).send('Invalid User');
 		}
+		else if(distance < 0) {
+			res.send("null");
+		}
 		else{
 			doc.coins = parseInt(doc.coins) + parseInt(coins);
 			doc.distance =  parseInt(doc.distance) + parseInt(distance);
