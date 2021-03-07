@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "1078199262660",
+    "project_id": "walkman-a150f",
+    "storage_bucket": "walkman-a150f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1078199262660:android:7d16a6f1163815aa765891",
+        "android_client_info": {
+          "package_name": "com.bigfoot.www.walkman"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1078199262660-fpdh4qao47gscg4gb97581l3a4esqiog.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bigfoot.www.walkman",
+            "certificate_hash": "a839b60acb12928b6364aec54e90b56c6f8e5391"
+          }
+        },
+        {
+          "client_id": "1078199262660-lk3t783b2888aom5alifvj3eamam4rp7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyxCT0IpPjym7c5h0dsXqkOj2HwC-8sM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1078199262660-lk3t783b2888aom5alifvj3eamam4rp7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1078199262660:android:3a13e09d79966856765891",
+        "android_client_info": {
+          "package_name": "com.example.WalkmanMobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1078199262660-lk3t783b2888aom5alifvj3eamam4rp7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyxCT0IpPjym7c5h0dsXqkOj2HwC-8sM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1078199262660-lk3t783b2888aom5alifvj3eamam4rp7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
