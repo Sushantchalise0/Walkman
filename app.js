@@ -38,6 +38,7 @@ mongoose
 	.catch(error => console.log(error));
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "views/home")));
 
 //SET VIEW ENGINE
 const { select, generateTime } = require("./helpers/handlebars-helpers");
@@ -134,6 +135,11 @@ app.use("/admin/vendorlog", vendorlog);
 app.use("/admin/products", products);
 app.use("/admin/featured", featured);
 app.use("/admin/statements", statements);
+app.use("/js", express.static('./js/'));
+app.use("/css", express.static('./css/'));
+app.use("/images", express.static('./images/'));
+app.use("/fonts", express.static('./fonts/'));
+
 // app.use("/partner/addcoin", addcoinpartner);
 // app.use("/partner", loginpartner);
 //for secure api

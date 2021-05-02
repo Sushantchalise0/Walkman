@@ -1,4 +1,4 @@
-<h1>CREATE tbl_user_progress HERE</h1>
+<h1>Update Bulk Users Here</h1>
 
 {{#each errors}}
 
@@ -10,26 +10,21 @@
 <form action="/admin/subprogress/create" method="post" enctype="multipart/form-data">
 
     <div class="form-group">
-        <label for="distance"> Distance </label>
-        <input type="text" name="distance" class="form-control" id="distance" placeholder="Enter distance">
+        <label for="distance"> Download a Sample file </label><br>
+        <a href="/images/Sample.csv" download>
+  <img src="/images/Sample.csv" alt="GPI" width="104" height="142">
+</a>
+
     </div>
 
   
 
-<div class="form-group">
-        <label for="detail"> user </label>
-        <select name="detail" id="status" class="form-control">
-        
-         {{#each details}}
-            <option value='{{id}}'>{{user_name}}</option>
-            {{/each}}
-        </select>
-    </div>
+
     <div class="form-group">
-        <label for="date"> date </label>
-         <input type="date" name="date" class="form-control" id="date" placeholder="Enter date">
+        <label for="date"> Bulk Data in CSV </label>
+         <input type="file" name="date" class="form-control" id="date" placeholder="Enter date">
     </div>
 
-    <button type="submit" class="btn btn-primary"> CREATE </button>
+    <button type="submit" class="btn btn-primary"> Update </button>
 
 </form>
