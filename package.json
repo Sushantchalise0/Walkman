@@ -28,7 +28,7 @@
     "method-override": "^3.0.0",
     "moment": "^2.22.2",
     "mongodb": "^3.6.3",
-    "mongoose": "^5.12.5",
+    "mongoose": "^5.10.9",
     "morgan": "^1.9.1",
     "npm": "^6.14.8",
     "passport": "^0.4.0",
@@ -38,10 +38,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sushantchalise0/walkman.git"
+    "url": "git+https://github.com/Sushantchalise0/GPI.git"
   },
   "bugs": {
-    "url": "https://github.com/Sushantchalise0/walkman/issues"
+    "url": "https://github.com/Sushantchalise0/GPI/issues"
   },
   "homepage": "https://github.com/Sushantchalise0/GPI#readme"
 }
