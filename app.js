@@ -1852,8 +1852,8 @@ app.post("/getStatement", async (req, res) => {
 
 //specific vendor detail
 app.get("/getPartnerVendor", (req, res) => {
-	var vendor_id = req.body.vendorID;
-	Vendor.find({ _id: vendor_id }).exec(function(err, vendorPartner) {
+	var vendor_id = req.body.vendor_id;
+	Vendor.findOne({_id : vendor_id }).exec(function(err, vendorPartner) {
 		if (err) {
 			res.json(0);
 		} else {
