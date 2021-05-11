@@ -715,15 +715,15 @@ ProtectedRoutes.get("/leaderboardsecured", function(req, res) {
 
 //API ADD NEW USERS 
 app.post("/details/registration", (req, res) => {
-	var user_img = req.body.user_img;
+	//var user_img = req.body.user_img;
 	var email_id = req.body.email_id;
 	var user_name = req.body.user_name;
-	var last_updated = Date.now();
+	var phone_number = req.body.phone_number;
 	var created_date = Date.now();
 
 	var details = new Detail({
 		user_name: user_name,
-		user_img: user_img,
+		phone_number: phone_number,
 		email_id: email_id,
 		created_date: created_date,
 	});
@@ -738,8 +738,7 @@ app.post("/details/registration", (req, res) => {
 					var progresses = new Progress({
 						detail: details._id,
 						distance: 0,
-						coins: 100,
-						last_updated: last_updated
+						coins: 100
 					});
 					progresses.save().then(done => {
 						res.status(200).send(docs);
@@ -836,7 +835,7 @@ app.post("/progresses/getProgress", (req, res) => {
 
 //API TO GETDETAIL
 app.post("/details/getDetails", (req, res) => {
-	var email_id = req.body.fb_id;
+	var email_id = req.body.email_id;
 
 	Detail.find( {email_id} ).then(
 		data => {
