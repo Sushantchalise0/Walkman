@@ -492,6 +492,79 @@ app.post("/verified", (req, res) => {
 	);
 });
 
+
+//API TOKEN ACCESS GPI
+app.post("/wp-json/wp/v2/getUserToken", (req, res) => {
+	if (req.body.username === "walkman") {
+		if (req.body.password === "walkman123") {
+			
+			res.json({
+				token: "123",
+				username: "walkman",
+				email: "walkman@greencoins.com"
+			});
+		} else {
+			res.json({ 
+				"code": "unauthorized_access",
+				"message": "Unauthorized Access",
+				"data": {
+					"status": 404
+				}
+			});
+		}
+	}
+});
+
+
+//API ALL USER DETAILS GPI
+app.get("/wp-json/wp/v2/getUserDetails", (req, res) => {
+	var token = req.query.token;
+	var email = req.query.email;
+	if(token==123 && email == 'walkman@greencoins.com'){
+
+	Detail.find().then(
+		details => {
+			res.send( details );
+		},
+		e => {
+			res.send(400).send(e);
+		}
+	);
+	
+	}
+
+	else{
+		res.json({ 
+		
+			"code": "unauthorized_access",
+			"message": "Unauthorized Access",
+			"data": {
+				"status": 404
+			}
+		
+		});
+	}
+});
+
+
+//API USER PROGRESS GPI
+app.get("/progresses/getProgress", (req, res) => {
+	var detail = req.body.detail;
+
+	Progress.find({ detail }, 'distance calorie carbon_red')
+		.then(progresses => {
+			// console.log(detail);
+			if (!progresses) {
+				return res.status(404).send();
+			}
+			res.json( progresses );
+		})
+		.catch(e => {
+			res.status(400).send();
+		});
+});
+
+
 //API REEDEM
 app.post("/getCoupons", (req, res) => {
 	var detail = req.body.detail;
