@@ -517,10 +517,9 @@ app.post("/wp-json/wp/v2/getUserToken", (req, res) => {
 
 
 //API ALL USER DETAILS GPI
-app.get("/wp-json/wp/v2/getUserDetails", (req, res) => {
+app.get("/users", (req, res) => {
 	var token = req.query.token;
-	var email = req.query.email;
-	if(token==123 && email == 'walkman@greencoins.com'){
+	if(token==123){
 
 	Detail.find().then(
 		details => {
@@ -548,9 +547,10 @@ app.get("/wp-json/wp/v2/getUserDetails", (req, res) => {
 
 
 //API USER PROGRESS GPI
-app.get("/progresses/getProgress", (req, res) => {
-	var detail = req.body.detail;
-
+app.get("/progress", (req, res) => {
+	var detail = req.query.userid;
+	var token = req.query.token;
+	if (token ==123 ){
 	Progress.find({ detail }, 'distance calorie carbon_red')
 		.then(progresses => {
 			// console.log(detail);
@@ -562,6 +562,18 @@ app.get("/progresses/getProgress", (req, res) => {
 		.catch(e => {
 			res.status(400).send();
 		});
+	}
+	else {
+		res.json({ 
+		
+			"code": "unauthorized_access",
+			"message": "Unauthorized Access",
+			"data": {
+				"status": 404
+			}
+		
+		});
+	}
 });
 
 
