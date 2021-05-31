@@ -533,7 +533,7 @@ app.get("/users", (req, res) => {
 	}
 
 	else{
-		res.json({ 
+		res.status(404).send({ 
 		
 			"code": "unauthorized_access",
 			"message": "Unauthorized Access",
@@ -564,7 +564,7 @@ app.get("/progress", (req, res) => {
 		});
 	}
 	else {
-		res.json({ 
+		res.status(404).json({ 
 		
 			"code": "unauthorized_access",
 			"message": "Unauthorized Access",
