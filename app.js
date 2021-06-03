@@ -547,22 +547,14 @@ app.get("/users", (req, res) => {
 
 
 //API USER PROGRESS GPI
-app.get("/progress", (req, res) => {
-	var detail = req.query.userid;
+app.get("/progress", paginatedResults(), (req, res) => {
+//	var detail = req.query.userid;
 	var token = req.query.token;
 	if (token ==123 ){
-	Progress.find({ detail }, 'distance calorie carbon_red')
-		.then(progresses => {
-			// console.log(detail);
-			if (!progresses) {
-				return res.status(404).send();
-			}
-			res.json( progresses );
-		})
-		.catch(e => {
-			res.status(400).send();
-		});
-	}
+				//console.log(res.paginatedResults[1]);
+				res.json(res.paginatedResults);
+	
+		}
 	else {
 		res.status(404).json({ 
 		
@@ -575,6 +567,79 @@ app.get("/progress", (req, res) => {
 		});
 	}
 });
+
+
+//PAGINATION FUNCTION
+function paginatedResults() {
+	return async (req, res, next) => {
+	  var page = parseInt(req.query.page);
+	  var limit = parseInt(req.query.limit);
+	  //console.log(page, limit);
+	  const skipIndex = (page - 1) * limit;
+	  const results = {};
+  
+	  try {
+		results.values = await Progress.find().populate('detail')
+		  .sort({ _id: 1 })
+		  .limit(limit)
+		  .skip(skipIndex)
+		  .exec();
+		res.paginatedResults = results;
+		console.log(results);
+		next();
+	  } catch (e) {
+		res.status(500).json({ message: "Error Occured" });
+	  }
+	};
+  }
+
+
+  //api progress page
+  app.get("/userinfo", async (req, res) => {
+	  var token = req.query.token;
+	  var limit = parseInt(req.query.limit);
+	  var page = parseInt(req.query.page);
+	  const skipIndex = (page - 1) * limit;
+		if (token ==123 ){
+			var values = [];
+
+			var stat = await Progress.find()
+			.limit(limit)
+			.skip(skipIndex)
+			.populate("detail");
+		stat.map(state => {
+
+			var body = {};
+			body.name = state.detail.user_name;
+			body.email_id = state.detail.email_id;
+			body.fb_id = state.detail.fb_id;
+			body.gender = state.detail.gender;
+			body.dob = state.detail.dob;
+			body.carbon_red = state.carbon_red;
+			body.progress = state.progress;
+			body.coins = state.coins;
+			values.push(body);
+		});
+	
+		res.send( {values});
+		
+		
+		
+		
+		
+				}
+		else {
+			res.status(404).json({ 
+			
+				"code": "unauthorized_access",
+				"message": "Unauthorized Access",
+				"data": {
+					"status": 404
+				}
+			
+			});
+		}
+	});
 
 
 //API REEDEM
