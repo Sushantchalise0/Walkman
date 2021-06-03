@@ -517,35 +517,60 @@ app.post("/wp-json/wp/v2/getUserToken", (req, res) => {
 
 
 //API ALL USER DETAILS GPI
-app.get("/users", (req, res) => {
+app.get("/users", async (req, res) => {
 	var token = req.query.token;
-	if(token==123){
 
-	Progress.find()
-	.populate('detail')
-	.then(
-		data => {
-			res.send( data );
-		},
-		e => {
-			res.send(400).send(e);
-		}
-	);
-	
-	}
+	  if (token ==123 ){
+		  var values = [];
 
-	else{
-		res.status(404).send({ 
+		  var stat = await Progress.find({})
+		  
+		  .populate("detail")
+		//   .exec(function(err, progress) {
+		// 	if (err) {
+		// 		res.json(err);
+		// 	} else {
+		// 		var datalen = progress.length;
+		// 	}
+		// })
+		;
+
+
 		
-			"code": "unauthorized_access",
-			"message": "Unauthorized Access",
-			"data": {
-				"status": 404
-			}
-		
-		});
-	}
-});
+	  stat.map(state => {
+
+		  var body = {};
+		  body.name = state.detail.user_name;
+		  body.email_id = state.detail.email_id;
+		  body.fb_id = state.detail.fb_id;
+		  body.gender = state.detail.gender;
+		  body.dob = state.detail.dob;
+		  body.carbon_red = state.carbon_red;
+		  body.progress = state.distance;
+		  body.coins = state.coins;
+		  values.push(body);
+	  });
+  
+	  res.send( {values});
+	  
+	  
+	  
+	  
+	  
+	  
+			  }
+	  else {
+		  res.status(404).json({ 
+		  
+			  "code": "unauthorized_access",
+			  "message": "Unauthorized Access",
+			  "data": {
+				  "status": 404
+			  }
+		  
+		  });
+	  }
+  });
 
 
 //API USER PROGRESS GPI
@@ -618,7 +643,7 @@ function paginatedResults() {
 			body.gender = state.detail.gender;
 			body.dob = state.detail.dob;
 			body.carbon_red = state.carbon_red;
-			body.progress = state.progress;
+			body.progress = state.distance;
 			body.coins = state.coins;
 			values.push(body);
 		});
