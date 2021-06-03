@@ -521,9 +521,11 @@ app.get("/users", (req, res) => {
 	var token = req.query.token;
 	if(token==123){
 
-	Detail.find().then(
-		details => {
-			res.send( details );
+	Progress.find()
+	.populate('detail')
+	.then(
+		data => {
+			res.send( data );
 		},
 		e => {
 			res.send(400).send(e);
