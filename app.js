@@ -525,6 +525,7 @@ app.get("/users", async (req, res) => {
 
 	  if (token ==123 ){
 		  var values = [];
+		  var other = [];
 
 
 		  let total = await Progress.find({})
@@ -561,9 +562,10 @@ app.get("/users", async (req, res) => {
 		  body.coins = state.coins;
 		  values.push(body);
 	  });
-  		console.log(total);
-	  	values.push({total:total, page:page});
-	  	res.send( {values});
+  		//console.log(total);
+		  other.push({total:total, page:page});
+	  	//values.push({total:total, page:page});
+	  	res.json( {values,other});
 	  
 	  
 	  
