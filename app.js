@@ -563,7 +563,7 @@ app.get("/users", async (req, res) => {
 	  });
   		console.log(total);
 	  	values.push({total:total, page:page});
-	  	res.send( values);
+	  	res.send( {values});
 	  
 	  
 	  
