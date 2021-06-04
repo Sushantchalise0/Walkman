@@ -519,18 +519,27 @@ app.post("/wp-json/wp/v2/getUserToken", (req, res) => {
 //API ALL USER DETAILS GPI
 app.get("/users", async (req, res) => {
 	var token = req.query.token;
+	var page = req.query.page;
+	var limit = 20;
+	const skipIndex = (page-1) * limit;
 
 	  if (token ==123 ){
 		  var values = [];
 
+
+		  let total = await Progress.find({})
+		  .count();
+
 		  var stat = await Progress.find({})
-		  
+		  .limit(limit)
+		  .skip(skipIndex)
 		  .populate("detail")
 		//   .exec(function(err, progress) {
 		// 	if (err) {
 		// 		res.json(err);
 		// 	} else {
 		// 		var datalen = progress.length;
+		// 		console.log(datalen);
 		// 	}
 		// })
 		;
@@ -541,6 +550,8 @@ app.get("/users", async (req, res) => {
 
 		  var body = {};
 		  body.name = state.detail.user_name;
+		  body.user_img = state.detail.user_img;
+		  body.phone_number = state.detail.phone_number;
 		  body.email_id = state.detail.email_id;
 		  body.fb_id = state.detail.fb_id;
 		  body.gender = state.detail.gender;
@@ -550,8 +561,9 @@ app.get("/users", async (req, res) => {
 		  body.coins = state.coins;
 		  values.push(body);
 	  });
-  
-	  res.send( {values});
+  		console.log(total);
+	  	values.push({total:total, page:page});
+	  	res.send( values);
 	  
 	  
 	  
