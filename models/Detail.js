@@ -17,6 +17,11 @@ const DetailSchema = new Schema({
        type: String,
        default: '0'
    },
+
+   fb_id: {
+    type: String,
+    default: '0'
+},
    gender: {
        type: String,
        default: 'none'
