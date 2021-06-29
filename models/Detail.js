@@ -10,7 +10,7 @@ const DetailSchema = new Schema({
 
    user_img: {
     type: String,
-    default: 'empty'
+    default: 'null'
    },
 
    email_id: {

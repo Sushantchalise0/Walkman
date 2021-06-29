@@ -31,13 +31,14 @@ const ProgressSchema = new Schema({
     last_updated: {
         type: String,
         default: Date.now
-    },
+    }
+    // ,
 
-    time: [{
-        start_time: Number,
-        end_time: Number,
-        count: Number
-    }]
+    // time: [{
+    //     start_time: Number,
+    //     end_time: Number,
+    //     count: Number
+    // }]
 });
 
 module.exports = mongoose.model('Progress', ProgressSchema);

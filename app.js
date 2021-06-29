@@ -683,6 +683,47 @@ function paginatedResults() {
 	});
 
 
+
+	//Leaderboard for Asish
+app.get("/getLeaderboard/:title", async (req, res) =>{
+	var title = req.params.title;
+	var api = '/getLeaderboard';
+	if (title == 'All'){
+		var values = [];
+		var meta = [];
+
+		var stat = await Progress.find()
+		.populate("detail");
+	stat.map(state => {
+
+		var body = {};
+		body.name = state.detail.user_name;
+		body.user_img = state.detail.user_img;
+		body.progress = state.distance;
+		values.push(body);
+	});
+	values.sort((a, b) => {
+		return b.progress - a.progress;
+	});
+	meta.push({title:title, api:api});
+	res.json( {values, meta});
+}
+else {
+	res.status(404).json({ 
+	
+		"code": "error",
+		"message": "Received Error",
+		"data": {
+			"status": 404
+		}
+	
+	});
+}
+});
+
+
+
+
 //API REEDEM
 app.post("/getCoupons", (req, res) => {
 	var detail = req.body.detail;
@@ -1135,13 +1176,13 @@ app.post("/updateTime", (req, res) => {
 app.post("/progresses/setProgress", (req, res) => {
 	var detail = req.body.detail;
 	var distance = req.body.distance;
-	var start_time = req.body.start_time;
-	var end_time = req.body.end_time;
-	var time = {
-		start_time: start_time,
-		end_time: end_time,
-		count: distance
-	};
+	// var start_time = req.body.start_time;
+	// var end_time = req.body.end_time;
+	// var time = {
+	// 	start_time: start_time,
+	// 	end_time: end_time,
+	// 	count: distance
+	// };
 	//var doc ={};
 	var calorie = distance / 100;
 	var coins = distance / 100;
@@ -1152,13 +1193,13 @@ app.post("/progresses/setProgress", (req, res) => {
 		calorie: calorie,
 		coins: coins,
 		carbon_red: carbon_red,
-		time: time
+		//time: time
 	});
 	if(detail === undefined) res.send('pass detail');
 	else{ 
 	Progress.findOneAndUpdate(
 		 {detail: detail} ,
-		 { $push: {time : time  } },
+		// { $push: {time : time  } },
 		// { $inc: { coins: coins, distance: distance, calorie: calorie, carbon_red: carbon_red } },
 		// { $set: { coins: coins, distance: distance, calorie: calorie } },
 		 //{ new: true },
@@ -1208,13 +1249,13 @@ app.post("/progresses/setProgress", (req, res) => {
 app.post("/progresses/setProgress1", (req, res) => {
 	var detail = req.body.detail;
 	var distance = req.body.distance;
-	var start_time = req.body.start_time;
-	var end_time = req.body.end_time;
-	var time = {
-		start_time: start_time,
-		end_time: end_time,
-		count: distance
-	};
+	// var start_time = req.body.start_time;
+	// var end_time = req.body.end_time;
+	// var time = {
+	// 	start_time: start_time,
+	// 	end_time: end_time,
+	// 	count: distance
+	// };
 	var calorie = distance / 100;
 	var coins = distance / 100;
 	var carbon_red = distance * 35;
@@ -1224,12 +1265,12 @@ app.post("/progresses/setProgress1", (req, res) => {
 		calorie: calorie,
 		coins: coins,
 		carbon_red: carbon_red,
-		time: time
+		//time: time
 	});
 
 	Progress.update(
 		{detail: detail} ,
-		{ $push: {time : time  } },
+		//{ $push: {time : time  } },
 	   { $inc: { coins: coins, distance: distance, calorie: calorie, carbon_red: carbon_red } },
 		function(err, data){
 			console.log(data);
