@@ -303,6 +303,7 @@ const Unitss = require("./models/partner/Units");
 const Vendors = require("./models/Vendors");
 const BillingAddress = require("./models/BillingAddress");
 const Cart = require("./models/Cart");
+const WeeklyData = require("./models/WeeklyData");
 
 //API CUOPNS
 app.get("/coupons", async (req, res) => {
@@ -721,6 +722,163 @@ else {
 }
 });
 
+//API FOR weekly LEADERBOARD
+app.get("/weeklyleaderboard", async (req, res) => {
+	try {
+	  var datetime = new Date();
+	  //dateft is like this 2020-01-19
+	  var dateft = datetime.toISOString().slice(0, 10);
+	  var aggregatedata = await Subprogress.aggregate([
+		{
+		  $project: {
+			isoweek: {
+			  $isoWeek: {
+				date: "$date",
+				timezone: "Asia/Kathmandu",
+			  },
+			},
+			weektoday: {
+			  $isoWeek: {
+				date: new Date(dateft),
+				timezone: "Asia/Kathmandu",
+			  },
+			},
+			date: "$date",
+			detailID: "$detailID",
+			distance: "$distance",
+		  },
+		},
+	  ]);
+	  //console.log(aggregatedata);
+	  var datalen = aggregatedata.length;
+	  var detailddd = [];
+	  for (var i = 0; i < datalen; i++) {
+		//console.log(aggregatedata[i].detailID);
+		// console.log(sum++);
+		if (aggregatedata[i].isoweek == aggregatedata[i].weektoday) {
+		  var body = {};
+		  body.distance = aggregatedata[i].distance;
+		  body.detailID = aggregatedata[i].detailID;
+		  body.weekNo = aggregatedata[i].isoweek;
+		  detailddd.push(body);
+		  // detailddd.push(aggregatedata[i].distance);
+		  // detailddd.push(aggregatedata[i].detailID);
+		}
+	  }
+  
+	  // stringifies
+	  var dft = JSON.stringify(detailddd);
+	  //replaces with / " "
+	  var databody = dft.replace(/\\/g, "");
+	  var gt = JSON.parse(databody);
+	  // var unique = [...new Set(gt)]
+	  var unique = [...new Set(gt.map((x) => x.detailID))];
+	  var uniqueIDCount = unique.length;
+	  // console.log(uniqueIDCount);
+	  var leade = [];
+	  for (var i = 0; i < uniqueIDCount; i++) {
+		var sum = 0;
+		for (var j = 0; j < detailddd.length; j++) {
+		  if (unique[i] == detailddd[j].detailID) {
+			sum += detailddd[j].distance;
+			// console.log(detailddd[j].detailID);
+			// console.log(sum);
+		  }
+		}
+		var body = {};
+		body.detailID = unique[i];
+		body.distance = sum;
+		body.weekNo = detailddd[i].weekNo;
+		leade.push(body);
+		//console.log(unique[i],sum);
+		// console.log(sum);
+		//all weekly data in     detailddd
+		// console.log("i am inside loop");
+		// console.log(sum++);
+	  }
+	  //console.log(leade);
+	  var leaderboardweekold = sortBy(leade, "distance").reverse();
+	  var userweeklyleaderboard = [];
+	  var rankdata = 1;
+	  leaderboardweekold.map((state) => {
+		var leadey = {};
+		leadey.distance = state.distance;
+		leadey.detailID = state.detailID;
+		leadey.weekNo = state.weekNo;
+		leadey.rank = rankdata++;
+		userweeklyleaderboard.push(leadey);
+	  });
+	  var lengthweeklydata = userweeklyleaderboard.length;
+	  //console.log(lengthweeklydata);
+	  var fffinal = [];
+	  for (var d = 0; d < lengthweeklydata; d++) {
+		//console.log(userweeklyleaderboard[d].detailID);
+  
+		var togetuserdata = await Detail.find({
+		  _id: userweeklyleaderboard[d].detailID,
+		});
+		//console.log(togetuserdata);
+		togetuserdata.map((state) => {
+		  var body = {};
+		  body.user_name = state.user_name;
+		  body.detailID = state._id;
+		  body.user_img = state.user_img;
+		  body.distance = userweeklyleaderboard[d].distance;
+		  body.weekNo = userweeklyleaderboard[d].weekNo;
+		  body.rank = userweeklyleaderboard[d].rank;
+		  fffinal.push(body);
+		});
+		//console.log(fffinal);
+	  }
+	  var finalbody = {};
+	  finalbody.result = "1";
+	  finalbody.message = "Weekly Leaderboard";
+	  finalbody.data = fffinal;
+  
+	  //to save weekly winner
+	  var new_Winner = await new Winnerweek({
+		detailID: fffinal[0].detailID,
+		user_name: fffinal[0].user_name,
+		user_img: fffinal[0].user_img,
+		distance: fffinal[0].distance,
+		weekNo: fffinal[0].weekNo,
+	  });
+  
+	  await Winnerweek.findOneAndUpdate(
+		{
+		  weekNo: fffinal[0].weekNo,
+		},
+		{
+		  $set: {
+			detailID: fffinal[0].detailID,
+			user_name: fffinal[0].user_name,
+			user_img: fffinal[0].user_img,
+			distance: fffinal[0].distance,
+			modified_date: dateft,
+		  },
+		},
+		{ new: true },
+		(err, doc) => {
+		  //console.log(doc);
+		  if (doc == null) {
+			// console.log("inside error");
+			new_Winner.save();
+		  } else {
+			console.log("update success");
+		  }
+		}
+	  );
+	  //end to save weekly winner
+  
+	  res.json(finalbody);
+	} catch (err) {
+	  var finalbody = {};
+	  finalbody.result = "0";
+	  finalbody.message = "Failed to get Weekly Leaderboard";
+	  finalbody.data = [];
+	  res.json(finalbody);
+	}
+  });
 
 
 
@@ -988,6 +1146,52 @@ app.post("/details/registration", (req, res) => {
 	});
 });
 
+
+
+
+//API SET PROGRESS
+app.post("/progresses/setProgress1", (req, res) => {
+	var detail = req.body.detail;
+	var distance = req.body.distance;
+	var start_time = req.body.start_time;
+	var end_time = req.body.end_time;
+	var calorie = distance / 100;
+	var coins = distance / 100;
+	var carbon_red = distance * 35;
+	var prog = new Progress({
+		detail: detail,
+		distance: distance,
+		calorie: calorie,
+		coins: coins,
+		carbon_red: carbon_red
+	});
+
+	Progress.update(
+		{detail: detail} ,
+	   { $inc: { coins: coins, distance: distance, calorie: calorie, carbon_red: carbon_red } },
+		function(err, data){
+			if(err) res.send("error");
+			else {
+				console.log('this');
+					var weekdata = new WeeklyData({
+						detail: detail,
+						distance: distance,
+						start_time: start_time,
+						end_time: end_time
+					});
+					console.log('that');
+					weekdata.save().then(done => {
+						res.status(200);
+					});
+				
+				res.send(prog);
+			}
+		}
+	)
+});
+
+
+
 //API TO CHECK IS USER EXISTS
 // app.post("/userExists", (req, res) => {
 // 	var email_id = req.body.email_id;
@@ -1176,14 +1380,8 @@ app.post("/updateTime", (req, res) => {
 app.post("/progresses/setProgress", (req, res) => {
 	var detail = req.body.detail;
 	var distance = req.body.distance;
-	// var start_time = req.body.start_time;
-	// var end_time = req.body.end_time;
-	// var time = {
-	// 	start_time: start_time,
-	// 	end_time: end_time,
-	// 	count: distance
-	// };
-	//var doc ={};
+	var start_time = req.body.start_time;
+	var end_time = req.body.end_time;
 	var calorie = distance / 100;
 	var coins = distance / 100;
 	var carbon_red = distance * 35;
@@ -1195,14 +1393,15 @@ app.post("/progresses/setProgress", (req, res) => {
 		carbon_red: carbon_red,
 		//time: time
 	});
+	var weekdata = new weeklyData({
+		detail: detail,
+		start_time: start_time,
+		end_time: end_time
+	});
 	if(detail === undefined) res.send('pass detail');
 	else{ 
 	Progress.findOneAndUpdate(
-		 {detail: detail} ,
-		// { $push: {time : time  } },
-		// { $inc: { coins: coins, distance: distance, calorie: calorie, carbon_red: carbon_red } },
-		// { $set: { coins: coins, distance: distance, calorie: calorie } },
-		 //{ new: true },
+		 {detail: detail},
 		
 		(err, doc) => {
 			console.log(doc);
@@ -1227,59 +1426,25 @@ app.post("/progresses/setProgress", (req, res) => {
 				//console.log(doc);
 				res.send(prog);
 			});
+			week => {
+				var weekdata = new WeeklyData({
+					detail: detail,
+					start_time: start_time,
+					end_time: end_time
+				});
+				weekdata.save().then(done => {
+					res.status(200);
+				});
+			},
+			e => {
+				res.status(400).send(e);
+			}
 		}
-			
-			//     prog.save().then((progresses) => {
-			//         res.send(progresses);
-			//     }, (e) => {
-			//         res.status(400).send(e);
-			//     });
-
-			//     res.send('updated');
-			// }).catch((e) => {
-			//     res.status(400).send(e);
 		}
 	);
 }
 });
 
-
-
-//API SET PROGRESS
-app.post("/progresses/setProgress1", (req, res) => {
-	var detail = req.body.detail;
-	var distance = req.body.distance;
-	// var start_time = req.body.start_time;
-	// var end_time = req.body.end_time;
-	// var time = {
-	// 	start_time: start_time,
-	// 	end_time: end_time,
-	// 	count: distance
-	// };
-	var calorie = distance / 100;
-	var coins = distance / 100;
-	var carbon_red = distance * 35;
-	var prog = new Progress({
-		detail: detail,
-		distance: distance,
-		calorie: calorie,
-		coins: coins,
-		carbon_red: carbon_red,
-		//time: time
-	});
-
-	Progress.update(
-		{detail: detail} ,
-		//{ $push: {time : time  } },
-	   { $inc: { coins: coins, distance: distance, calorie: calorie, carbon_red: carbon_red } },
-		function(err, data){
-			console.log(data);
-			if(err) res.send("error");
-			else res.send(prog);
-		}
-	);
-	
-});
 
 
 
