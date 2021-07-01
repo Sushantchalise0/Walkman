@@ -2108,7 +2108,8 @@ app.get("/products", async (req, res) => {
 //API total steps in db
 app.post("/userProfile", function(req, res) {
 	var detail = req.body.detail
-	
+
+	Detail.findById({_id:detail }).then((data) => {
 	Progress.find({}).exec(function(err, progress) {
 		if (err) {
 			res.json(err);
@@ -2120,6 +2121,8 @@ app.post("/userProfile", function(req, res) {
 			var user_coins = 0;
 			var pos ;
 			var carbon_red;
+			var user_img = data.user_img;
+			var user_name = data.user_name;
 			
 			for (var i = 0; i < datalen; i++) {
 				totalsteps = totalsteps + progress[i].distance;
@@ -2139,6 +2142,8 @@ app.post("/userProfile", function(req, res) {
 						pos = ++position;
 					
 				res.status(201).send({
+					"user_name": user_name,
+				"user_img": user_img,
 				"user_step": user_step,
 				"total_step": totalsteps,
 				"total_coins": totalcoins,
@@ -2151,6 +2156,7 @@ app.post("/userProfile", function(req, res) {
 
 		}
 	});
+});
 });
 
 //API total green coins in db
