@@ -1761,8 +1761,10 @@ app.get("/subtest", function(req, res) {
 // //API ADD USER SUB PROGRESS daily
 //need detail id, date and distance in array in object subprogress
 app.post("/subprogress", (req, res) => {
+	console.log(req.body.subprogress);
 	var obj = Object.keys(req.body.subprogress).length;
 	var docs = [];
+	console.log(req.body.subprogress);
 	for (var i = 0; i < obj; i++) {
 		docs[i] = req.body.subprogress[i];
 		const subprogress = new Subprogress({
