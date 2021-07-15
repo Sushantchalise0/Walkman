@@ -1594,12 +1594,12 @@ app.get('/cart', (req, res) => {
 
 //API TO ADD REVIEWS
 app.post("/reviews/setReviews", (req, res) => {
-	var detail = req.body.detail;
-	var body = req.body.body;
-	var productID = req.body.productID;
-	var rating = req.body.rating;
-	var date = req.body.date;
-	var review = new Reviews({
+	const detail = req.body.detail;
+	const body = req.body.body;
+	const productID = req.body.productID;
+	const rating = req.body.rating;
+	const date = req.body.date;
+	let review = new Reviews({
 		detail: detail,
 		body: body,
 		productID: productID,
@@ -1613,6 +1613,50 @@ app.post("/reviews/setReviews", (req, res) => {
 			res.status(404).send("error adding review");
 		}
 	});
+});
+
+
+//API TO UPDATE REVIEWS
+app.post("/reviews/updateReviews", (req, res) => {
+	const detail = req.body.detail;
+	const body = req.body.body;
+	const rating = req.body.rating;
+	const date = req.body.date;
+	const productID = req.body.productID;
+	var review = new Reviews({
+		//detail: detail,
+		body: body,
+		rating: rating,
+		date: date
+	});
+	Reviews.find(
+		{ detail : detail, productID : productID  },
+	//	{ $set: { body: body, rating: rating, date: date} },
+	//	{ new: true },
+		(err, doc) => {
+			if (err) {
+				res.send("error");
+			}
+			res.send(doc);
+		}
+	);
+});
+
+
+//API TO VIEW ALL REVIEWS OF A PRODUCT
+app.get('/reviews', (req, res) => {
+
+	const productID = req.query.productID;
+	Reviews.find({productID: productID})
+	.populate('detail') // multiple path names in one requires mongoose >= 3.6
+   //  .exec(function(err, usersDocuments) {
+   // 	res.send(usersDocuments);
+   // });
+   .then((reviews) => {
+	   res.send({reviews});
+   }, (e) => {
+	   res.status(400).send(e);
+   });
 });
 
 
