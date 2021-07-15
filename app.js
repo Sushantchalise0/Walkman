@@ -304,6 +304,7 @@ const Vendors = require("./models/Vendors");
 const BillingAddress = require("./models/BillingAddress");
 const Cart = require("./models/Cart");
 const WeeklyData = require("./models/WeeklyData");
+const Reviews = require("./models/Reviews");
 
 //API CUOPNS
 app.get("/coupons", async (req, res) => {
@@ -1588,6 +1589,30 @@ app.get('/cart', (req, res) => {
     }, (e) => {
         res.status(400).send(e);
     });
+});
+
+
+//API TO ADD REVIEWS
+app.post("/reviews/setReviews", (req, res) => {
+	var detail = req.body.detail;
+	var body = req.body.body;
+	var productID = req.body.productID;
+	var rating = req.body.rating;
+	var date = req.body.date;
+	var review = new Reviews({
+		detail: detail,
+		body: body,
+		productID: productID,
+		rating: rating,
+		date: date
+	});
+	review.save().then(done => {
+		if (done) {
+			res.send(review);
+		} else {
+			res.status(404).send("error adding review");
+		}
+	});
 });
 
 
