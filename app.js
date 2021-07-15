@@ -1624,20 +1624,24 @@ app.post("/reviews/updateReviews", (req, res) => {
 	const date = req.body.date;
 	const productID = req.body.productID;
 	var review = new Reviews({
-		//detail: detail,
+		detail: detail,
 		body: body,
 		rating: rating,
-		date: date
+		date: date,
+		productID: productID
 	});
-	Reviews.find(
-		{ detail : detail, productID : productID  },
-	//	{ $set: { body: body, rating: rating, date: date} },
-	//	{ new: true },
+	Reviews.findOneAndUpdate(
+		{$and:[
+		{ detail : detail, productID : productID  }
+	]},
+		{ $set: { body: body, rating: rating, date : date} },
+		
+		//{ new: true },
 		(err, doc) => {
 			if (err) {
-				res.send("error");
+				res.send(err);
 			}
-			res.send(doc);
+			res.send(review);
 		}
 	);
 });
